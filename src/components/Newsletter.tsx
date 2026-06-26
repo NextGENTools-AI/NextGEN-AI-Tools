@@ -44,7 +44,7 @@ export default function Newsletter() {
                 Stay ahead of the AI curve
               </h2>
               <p className="text-[14px] sm:text-[15px] text-dark-200 mb-8 max-w-md mx-auto leading-relaxed">
-                Get weekly curated picks of the best new AI tools, industry insights, and exclusive reviews delivered to your inbox.
+                Get occasional updates about new tool listings, directory changes, and useful AI resources.
               </p>
 
               {submitted ? (
@@ -59,7 +59,7 @@ export default function Newsletter() {
                     </svg>
                   </div>
                   <span className="text-[14px] font-medium text-emerald-400">
-                    You're subscribed. Welcome aboard!
+                    Thanks for signing up. We’ll share occasional updates.
                   </span>
                 </motion.div>
               ) : (

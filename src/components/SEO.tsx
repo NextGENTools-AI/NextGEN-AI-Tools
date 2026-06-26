@@ -23,7 +23,7 @@ const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
 
 export default function SEO({
   title,
-  description = 'The most comprehensive directory of 2,400+ AI tools. Find, compare, and integrate the best AI solutions for your workflow.',
+  description = 'A curated directory of AI tools for writing, coding, image generation, video, and more. Browse by category and compare options.',
   keywords = 'AI tools, artificial intelligence, ChatGPT, Midjourney, AI writing, AI coding',
   canonical,
   ogType = 'website',
@@ -31,7 +31,7 @@ export default function SEO({
   article,
   structuredData,
 }: SEOProps) {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Discover the Best AI Tools`;
+  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Curated AI Tool Directory`;
   const fullCanonical = canonical ? `${SITE_URL}${canonical}` : SITE_URL;
 
   return (
@@ -161,6 +161,24 @@ export function generateFAQSchema(
         text: faq.answer,
       },
     })),
+  };
+}
+
+export function generateCollectionPageSchema({
+  name,
+  description,
+  url,
+}: {
+  name: string;
+  description: string;
+  url: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url: `${SITE_URL}${url}`,
   };
 }
 

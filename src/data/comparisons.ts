@@ -5,6 +5,26 @@ export interface ComparisonFeature {
   winner?: 'A' | 'B' | 'tie';
 }
 
+export interface ComparisonVerdict {
+  overall: {
+    winner: 'A' | 'B' | 'tie';
+    reason: string;
+  };
+  beginners?: {
+    winner: 'A' | 'B' | 'tie';
+    reason: string;
+  };
+  value?: {
+    winner: 'A' | 'B' | 'tie';
+    reason: string;
+  };
+  enterprise?: {
+    winner: 'A' | 'B' | 'tie';
+    reason: string;
+  };
+  finalRecommendation: string;
+}
+
 export interface Comparison {
   id: string;
   slug: string;
@@ -13,27 +33,42 @@ export interface Comparison {
     name: string;
     logo: string;
     gradient: string;
+    freePlan?: string;
+    pricing: { plan: string; price: string }[];
+    platforms?: string[]; // e.g., Web, iOS, Android, Desktop
+    apiAvailable: boolean;
+    imageGeneration?: boolean;
+    codeGeneration?: boolean;
+    speed?: string; // e.g., 'Fast', 'Moderate', 'Slow'
+    easeOfUse: 'Easy' | 'Medium' | 'Hard';
+    teamCollaboration: boolean;
+    strengths: string[];
+    weaknesses: string[];
   };
   toolB: {
     id: string;
     name: string;
     logo: string;
     gradient: string;
+    freePlan?: string;
+    pricing: { plan: string; price: string }[];
+    platforms?: string[];
+    apiAvailable: boolean;
+    imageGeneration?: boolean;
+    codeGeneration?: boolean;
+    speed?: string;
+    easeOfUse: 'Easy' | 'Medium' | 'Hard';
+    teamCollaboration: boolean;
+    strengths: string[];
+    weaknesses: string[];
   };
   title: string;
   metaTitle: string;
   metaDescription: string;
   introduction: string;
-  verdict: string;
-  winner: 'A' | 'B' | 'tie';
-  winnerReason: string;
+  verdict: ComparisonVerdict; // Changed to use ComparisonVerdict interface
   features: ComparisonFeature[];
-  pricingComparison: {
-    toolA: { plan: string; price: string }[];
-    toolB: { plan: string; price: string }[];
-  };
-  prosConsA: { pros: string[]; cons: string[] };
-  prosConsB: { pros: string[]; cons: string[] };
+  // Removed old pricingComparison, prosConsA, prosConsB
   useCases: {
     useCase: string;
     winner: 'A' | 'B' | 'tie';

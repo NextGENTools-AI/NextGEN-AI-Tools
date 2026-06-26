@@ -251,7 +251,7 @@ export default function ToolFinderPage() {
                     {index === 0 && (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-3">
                         <ZapIcon size={10} />
-                        Top Pick
+                        Suggested First
                       </span>
                     )}
                     <div className="flex items-start gap-3 mb-3">
@@ -269,10 +269,7 @@ export default function ToolFinderPage() {
                       {tool.tagline}
                     </p>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1">
-                        <StarIcon size={12} className="text-amber-400" />
-                        <span className="text-[12px] font-medium text-white">{tool.rating}</span>
-                      </div>
+                      <span className="text-[12px] text-dark-400">Open listing</span>
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded uppercase ${
                         tool.pricing === 'Free' || tool.pricing === 'Freemium'
                           ? 'bg-emerald-500/10 text-emerald-400'

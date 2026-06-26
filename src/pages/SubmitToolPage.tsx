@@ -8,10 +8,10 @@ import { CheckIcon, SparkleIcon, ZapIcon, UsersIcon, ChartIcon } from '../compon
 const pricingOptions = ['Free', 'Freemium', 'Paid', 'Enterprise'];
 
 const benefits = [
-  { icon: UsersIcon, title: 'Reach 180K+ monthly visitors', description: 'Get discovered by our growing audience of AI tool seekers.' },
-  { icon: ChartIcon, title: 'SEO-optimized listing', description: 'Your tool page ranks in search results for relevant queries.' },
-  { icon: SparkleIcon, title: 'Expert editorial review', description: 'Our team reviews and verifies every submission.' },
-  { icon: ZapIcon, title: 'Free forever', description: 'Basic listings are completely free, no strings attached.' },
+  { icon: UsersIcon, title: 'Clear listing format', description: 'Share your tool with a structured profile and category placement.' },
+  { icon: ChartIcon, title: 'Search-friendly pages', description: 'Each listing can include overview, pricing notes, and feature highlights.' },
+  { icon: SparkleIcon, title: 'Simple submission flow', description: 'Tell us about your product and we’ll review the submission for inclusion.' },
+  { icon: ZapIcon, title: 'No cost to get started', description: 'Basic listings are available at no charge.' },
 ];
 
 export default function SubmitToolPage() {
@@ -60,7 +60,7 @@ export default function SubmitToolPage() {
     <>
       <SEO
         title="Submit Your AI Tool — Get Listed in Our Directory"
-        description="Submit your AI tool to NextGEN AI Tools directory. Get discovered by 180K+ monthly visitors. Free listings available. SEO-optimized tool pages."
+        description="Submit your AI tool for consideration in our curated directory. Share a short overview, pricing details, and key features."
         canonical="/submit"
         keywords="submit AI tool, list AI tool, AI tool directory submission, promote AI tool"
         structuredData={breadcrumbSchema}
@@ -69,7 +69,7 @@ export default function SubmitToolPage() {
       <PageLayout maxWidth="5xl">
         <PageHeader
           title="Submit Your AI Tool"
-          description="Get your AI tool discovered by thousands of potential users. Our editorial team reviews every submission to ensure quality."
+          description="Share your AI tool with a simple listing form and a clear overview of what it does."
           badge="Free Listing"
         />
 
@@ -108,8 +108,7 @@ export default function SubmitToolPage() {
                 </div>
                 <h2 className="text-xl font-semibold text-white mb-3">Submission Received!</h2>
                 <p className="text-[14px] text-dark-300 max-w-md mx-auto mb-6">
-                  Thank you for submitting your tool. Our editorial team will review it within 3-5 business days. 
-                  We'll email you at <strong className="text-white">{formState.contactEmail}</strong> with updates.
+                  Thanks for sharing your tool. This form is a demo submission flow at the moment, so we may not process it automatically yet. We’ll follow up through the contact details you provided when a real submission process is in place.
                 </p>
                 <button
                   onClick={() => {
@@ -305,7 +304,7 @@ export default function SubmitToolPage() {
                     type="submit"
                     className="btn-primary w-full sm:w-auto px-8 py-3.5 rounded-xl text-[14px] font-semibold text-white"
                   >
-                    <span className="relative z-10">Submit Tool for Review</span>
+                    <span className="relative z-10">Submit Tool Inquiry</span>
                   </button>
                   <p className="mt-3 text-[12px] text-dark-400">
                     By submitting, you agree to our terms and confirm that you have the right to submit this tool.

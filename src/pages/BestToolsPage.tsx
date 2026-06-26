@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import SEO, { generateBreadcrumbSchema, generateFAQSchema } from '../components/SEO';
+import SEO, { generateBreadcrumbSchema, generateCollectionPageSchema, generateFAQSchema, generateToolListSchema } from '../components/SEO';
 import PageLayout, { Card, Breadcrumb } from '../components/layouts/PageLayout';
 import { getBestToolsPageBySlug, getToolsForPage, getRelatedPages } from '../data/bestToolsPages';
 import { tools } from '../data/tools';
@@ -8,6 +8,8 @@ import { ToolLogo } from '../components/ToolLogos';
 import { 
   StarIcon, ArrowRightIcon, CheckIcon
 } from '../components/Icons';
+import LastUpdated from '../components/LastUpdated';
+import EditorialBlock from '../components/EditorialBlock';
 
 export default function BestToolsPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -36,6 +38,19 @@ export default function BestToolsPage() {
   ]);
   
   const faqSchema = generateFAQSchema(page.faqs);
+  const collectionSchema = generateCollectionPageSchema({
+    name: page.title,
+    description: page.metaDescription,
+    url: `/best/${page.slug}`,
+  });
+  const itemListSchema = generateToolListSchema(
+    page.title,
+    pageTools.map((tool, index) => ({
+      name: tool.name,
+      url: `https://nextgenai.tools/tool/${tool.slug}`,
+      position: index + 1,
+    }))
+  );
 
   return (
     <>
@@ -46,7 +61,7 @@ export default function BestToolsPage() {
         keywords={`best AI tools for ${page.audience.toLowerCase()}, AI tools ${page.audience.toLowerCase()}, ${page.audience.toLowerCase()} AI software`}
         structuredData={{
           '@context': 'https://schema.org',
-          '@graph': [breadcrumbSchema, faqSchema],
+          '@graph': [breadcrumbSchema, faqSchema, collectionSchema, itemListSchema],
         }}
       />
 
@@ -73,6 +88,12 @@ export default function BestToolsPage() {
           <p className="text-base sm:text-lg text-dark-200 max-w-2xl mx-auto">
             {page.heroDescription}
           </p>
+          <div className="mt-4 flex flex-col items-center gap-2">
+            <LastUpdated date={page.updatedAt} />
+            <p className="text-[13px] text-dark-300">
+              These guides summarize public information and should be checked against the latest official sources.
+            </p>
+          </div>
         </motion.div>
 
         {/* Quick Navigation */}
@@ -117,9 +138,25 @@ export default function BestToolsPage() {
           className="mb-12"
         >
           <Card>
+            <EditorialBlock className="mb-6" />
             <h2 className="text-xl font-semibold text-white mb-4">Overview</h2>
             <p className="text-[14px] text-dark-200 leading-relaxed">
               {page.introduction}
+            </p>
+          </Card>
+        </motion.section>
+
+        {/* Buying Guide */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-12"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4">Buying Guide</h2>
+          <Card>
+            <p className="text-[14px] text-dark-200 leading-relaxed">
+              {page.selectionGuide || 'Compare the tools below by fit, pricing, and the specific workflow you need to improve first.'}
             </p>
           </Card>
         </motion.section>
@@ -165,10 +202,7 @@ export default function BestToolsPage() {
                         <span className="text-[13px] text-dark-200">{tool.tagline}</span>
                       </td>
                       <td className="py-4 px-4 text-center">
-                        <div className="flex items-center justify-center gap-1">
-                          <StarIcon size={14} className="text-amber-400" />
-                          <span className="text-[13px] font-medium text-white">{tool.rating}</span>
-                        </div>
+                        <span className="text-[12px] text-dark-400">View details</span>
                       </td>
                       <td className="py-4 px-4 text-center">
                         <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-md uppercase ${
@@ -233,10 +267,7 @@ export default function BestToolsPage() {
                           {tool.name}
                         </h3>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <div className="flex items-center gap-1">
-                            <StarIcon size={12} className="text-amber-400" />
-                            <span className="text-[12px] text-dark-300">{tool.rating}</span>
-                          </div>
+                          <span className="text-[12px] text-dark-400">Open listing</span>
                           <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase ${
                             tool.pricing === 'Free' || tool.pricing === 'Freemium'
                               ? 'bg-emerald-500/10 text-emerald-400'
@@ -265,6 +296,35 @@ export default function BestToolsPage() {
           );
         })}
 
+        {/* Related Resources */}
+        {page.relatedResources && page.relatedResources.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mb-12"
+          >
+            <h2 className="text-xl font-semibold text-white mb-6">Related Resources</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {page.relatedResources.map((resource) => (
+                <Link
+                  key={resource.href}
+                  to={resource.href}
+                  className="group card-hover rounded-xl border border-white/[0.06] bg-surface-2/40 p-5"
+                >
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-brand-400 mb-2">
+                    {resource.type}
+                  </div>
+                  <h3 className="text-[15px] font-semibold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                    {resource.title}
+                  </h3>
+                  <p className="text-[13px] text-dark-300">{resource.description}</p>
+                </Link>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
         {/* FAQs */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -282,6 +342,21 @@ export default function BestToolsPage() {
             ))}
           </div>
         </motion.section>
+
+        {/* Conclusion */}
+        {page.conclusion && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="mb-12"
+          >
+            <Card>
+              <h2 className="text-xl font-semibold text-white mb-3">Conclusion</h2>
+              <p className="text-[14px] text-dark-200 leading-relaxed">{page.conclusion}</p>
+            </Card>
+          </motion.section>
+        )}
 
         {/* Related Pages */}
         {relatedPages.length > 0 && (

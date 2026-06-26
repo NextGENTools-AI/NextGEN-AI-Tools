@@ -4,6 +4,8 @@ import SEO, { generateArticleSchema, generateBreadcrumbSchema } from '../compone
 import { getArticleBySlug, getRelatedArticles } from '../data/articles';
 import { getToolBySlug } from '../data/tools';
 import { ChevronLeftIcon, TwitterIcon, LinkedInIcon } from '../components/Icons';
+import EditorialBlock from '../components/EditorialBlock';
+import LastUpdated from '../components/LastUpdated';
 
 export default function ArticlePage() {
   const { slug } = useParams<{ slug: string }>();
@@ -115,6 +117,10 @@ export default function ArticlePage() {
               {article.excerpt}
             </p>
 
+            <div className="mb-8">
+              <LastUpdated date={article.updatedAt} />
+            </div>
+
             <div className="flex flex-wrap items-center justify-between gap-4 pb-8 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500/20 to-cyan-500/20 flex items-center justify-center text-[16px] font-semibold text-white border border-white/[0.06]">
@@ -156,6 +162,10 @@ export default function ArticlePage() {
               </div>
             </div>
           </motion.header>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.08 }} className="mb-10">
+            <EditorialBlock />
+          </motion.div>
 
           {/* Content */}
           <motion.div

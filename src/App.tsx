@@ -15,6 +15,7 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
+import EditorialPolicyPage from './pages/EditorialPolicyPage';
 
 // Growth Features
 import ToolFinderPage from './pages/ToolFinderPage';
@@ -23,6 +24,7 @@ import ComparisonPage from './pages/ComparisonPage';
 import PromptsPage from './pages/PromptsPage';
 import PromptDetailPage from './pages/PromptDetailPage';
 import SubmitToolPage from './pages/SubmitToolPage';
+import BestToolsIndexPage from './pages/BestToolsIndexPage';
 import BestToolsPage from './pages/BestToolsPage';
 import SearchPage from './pages/SearchPage';
 
@@ -58,6 +60,7 @@ function AppContent() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
+        <Route path="/editorial-policy" element={<EditorialPolicyPage />} />
         
         {/* Growth Features */}
         <Route path="/tool-finder" element={<ToolFinderPage />} />
@@ -68,6 +71,7 @@ function AppContent() {
         <Route path="/submit" element={<SubmitToolPage />} />
         
         {/* Best AI Tools Pages */}
+        <Route path="/best" element={<BestToolsIndexPage />} />
         <Route path="/best/:slug" element={<BestToolsPage />} />
         
         {/* Advanced Search */}

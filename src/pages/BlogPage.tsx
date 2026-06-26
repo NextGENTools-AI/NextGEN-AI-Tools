@@ -34,7 +34,7 @@ export default function BlogPage() {
     <>
       <SEO
         title="Blog — AI Tools Guides & Insights"
-        description="Expert guides, comparisons, and insights on AI tools. Learn how to leverage artificial intelligence for productivity, creativity, and business growth."
+        description="Research-based guides, comparisons, and insights on AI tools. Learn how to evaluate options for productivity, creativity, and business workflows."
         canonical="/blog"
         keywords="AI blog, AI tools guide, AI tutorials, artificial intelligence tips, AI productivity"
         structuredData={breadcrumbSchema}
@@ -53,7 +53,7 @@ export default function BlogPage() {
               AI Tools Blog
             </h1>
             <p className="text-base sm:text-lg text-dark-200 max-w-2xl mx-auto">
-              Expert guides, in-depth comparisons, and actionable insights to help you make the most of AI tools.
+              Research-based guides, comparisons, and practical notes to help you evaluate AI tools with more context.
             </p>
           </motion.div>
 

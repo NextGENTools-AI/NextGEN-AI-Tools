@@ -8,6 +8,8 @@ import {
   StarIcon, CheckIcon, ArrowRightIcon,
   LightbulbIcon
 } from '../components/Icons';
+import LastUpdated from '../components/LastUpdated';
+import EditorialBlock from '../components/EditorialBlock';
 
 function CopyIcon({ size = 16, className = '' }: { size?: number; className?: string }) {
   return (
@@ -101,15 +103,14 @@ export default function PromptDetailPage() {
                 {prompt.description}
               </p>
               <div className="flex items-center gap-4 mt-4">
-                <div className="flex items-center gap-1.5">
-                  <StarIcon size={14} className="text-amber-400" />
-                  <span className="text-[14px] font-medium text-white">{prompt.rating}</span>
-                  <span className="text-[13px] text-dark-400">rating</span>
-                </div>
+                <span className="text-[13px] text-dark-300">Template ready to adapt</span>
                 <span className="text-dark-500">·</span>
                 <span className="text-[13px] text-dark-300">
                   {prompt.copyCount.toLocaleString()} copies
                 </span>
+              </div>
+              <div className="mt-4">
+                <LastUpdated date={new Date().toISOString()} />
               </div>
             </motion.div>
 
@@ -225,7 +226,7 @@ export default function PromptDetailPage() {
                     <span className="text-[13px] text-dark-300">Rating</span>
                     <div className="flex items-center gap-1">
                       <StarIcon size={12} className="text-amber-400" />
-                      <span className="text-[13px] font-medium text-white">{prompt.rating}</span>
+                      <span className="text-[13px] font-medium text-white">Template</span>
                     </div>
                   </div>
                 </div>

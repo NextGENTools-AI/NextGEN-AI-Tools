@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { StarIcon, ExternalLinkIcon, ArrowRightIcon } from './Icons';
+import { ExternalLinkIcon, ArrowRightIcon } from './Icons';
 import { getFeaturedTools, type Tool } from '../data/tools';
 import { ToolLogo } from './ToolLogos';
 
@@ -50,11 +50,7 @@ function ToolCard({ tool }: { tool: Tool }) {
 
         {/* Footer */}
         <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
-          <div className="flex items-center gap-1.5">
-            <StarIcon size={13} className="text-amber-400" />
-            <span className="text-[13px] font-semibold text-white">{tool.rating}</span>
-            <span className="text-[12px] text-dark-400">({tool.reviews})</span>
-          </div>
+          <span className="text-[12px] text-dark-400">Pricing and category listed</span>
           <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-md uppercase tracking-wide ${
             tool.pricing === 'Freemium'
               ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
@@ -89,7 +85,7 @@ export default function FeaturedTools() {
               Featured Tools
             </h2>
             <p className="mt-2 text-[15px] text-dark-200 max-w-lg">
-              Hand-picked AI tools that are leading the industry, vetted by our editorial team.
+              A sample of tools from our directory, organized by category and pricing.
             </p>
           </div>
           <Link

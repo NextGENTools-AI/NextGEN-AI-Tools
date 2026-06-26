@@ -16,17 +16,17 @@ export default function ComparisonsPage() {
   return (
     <>
       <SEO
-        title="AI Tool Comparisons — Head-to-Head Analysis"
-        description="Compare the best AI tools head-to-head. In-depth comparisons of ChatGPT vs Claude, Midjourney vs Flux, and more. Make informed decisions with our detailed analysis."
+        title="AI Tool Comparisons — Side-by-Side Analysis"
+        description="Compare AI tools side by side with practical notes on features, pricing, and use cases."
         canonical="/compare"
-        keywords="AI tool comparison, ChatGPT vs Claude, Midjourney vs Flux, AI comparison, best AI tools"
+        keywords="AI tool comparison, ChatGPT vs Claude, Midjourney vs Flux, AI comparison"
         structuredData={breadcrumbSchema}
       />
 
       <PageLayout>
         <PageHeader
           title="AI Tool Comparisons"
-          description="Head-to-head comparisons of the best AI tools. Detailed analysis of features, pricing, pros, cons, and which tool is best for your specific needs."
+          description="Side-by-side overviews of popular AI tools, including pricing notes, feature differences, and simple takeaways."
         />
 
         <CardGrid columns={2} gap="lg">
@@ -107,7 +107,7 @@ export default function ComparisonsPage() {
           <Card className="max-w-2xl mx-auto">
             <h3 className="text-lg font-semibold text-white mb-2">Can't find the comparison you need?</h3>
             <p className="text-[14px] text-dark-300 mb-4">
-              We're constantly adding new comparisons. Let us know which tools you'd like us to compare.
+              New comparisons are added over time. Let us know which tools you’d like to see compared.
             </p>
             <Link
               to="/contact"

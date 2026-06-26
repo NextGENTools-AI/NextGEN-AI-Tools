@@ -6,9 +6,14 @@ import { getToolMedia } from '../data/toolMedia';
 import { ToolLogo } from '../components/ToolLogos';
 import {
   StarIcon, ExternalLinkIcon, CheckIcon,
-  XIcon, GlobeIcon, LayersIcon, TargetIcon, LightbulbIcon,
-  ArrowRightIcon, VideoIcon, ImageIcon
+  GlobeIcon, LayersIcon, TargetIcon, LightbulbIcon,
+  ArrowRightIcon
 } from '../components/Icons';
+import LastUpdated from '../components/LastUpdated';
+import EditorialBlock from '../components/EditorialBlock';
+import ScreenshotGallery from '../components/ScreenshotGallery';
+import VideoTutorial from '../components/VideoTutorial';
+import ProsCons from '../components/ProsCons';
 
 export default function ToolPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -109,12 +114,14 @@ export default function ToolPage() {
               </div>
               <p className="text-base sm:text-lg text-brand-400 font-medium mb-3">{tool.tagline}</p>
               <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-1.5">
-                  <StarIcon size={16} className="text-amber-400" />
-                  <span className="text-[15px] font-semibold text-white">{tool.rating}</span>
-                  <span className="text-[14px] text-dark-300">({tool.reviews} reviews)</span>
-                </div>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[13px] text-dark-300">
+                  <StarIcon size={13} className="text-amber-400" />
+                  {tool.rating}/5 rated by {tool.reviews} reviewers
+                </span>
                 <Link to={`/category/${tool.categorySlug}`} className="text-[13px] font-medium text-dark-300 hover:text-brand-400 transition-colors">{tool.category}</Link>
+              </div>
+              <div className="mt-4">
+                <LastUpdated date={new Date().toISOString()} className="text-[13px]" />
               </div>
             </div>
           </div>
@@ -130,64 +137,15 @@ export default function ToolPage() {
 
         {/* ── Screenshots Gallery ── */}
         {media && media.screenshots.length > 0 && (
-          <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.08 }} className="mb-8">
-            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <ImageIcon size={20} className="text-brand-400" />
-              Screenshots
-            </h2>
-            <div className={`grid gap-3 ${media.screenshots.length === 1 ? 'grid-cols-1' : media.screenshots.length === 2 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'}`}>
-              {media.screenshots.map((ss, i) => (
-                <div key={i} className="group rounded-xl overflow-hidden border border-white/[0.06]">
-                  {/* Mock screenshot */}
-                  <div className={`aspect-video bg-gradient-to-br ${ss.gradient} relative`}>
-                    {/* Mock window chrome */}
-                    <div className="absolute inset-x-0 top-0 h-7 bg-black/30 flex items-center gap-1.5 px-3">
-                      <span className="w-2.5 h-2.5 rounded-full bg-white/10" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-white/10" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-white/10" />
-                      <span className="ml-2 h-3.5 w-28 rounded bg-white/[0.06]" />
-                    </div>
-                    {/* Mock content lines */}
-                    <div className="absolute inset-0 flex items-center justify-center p-6 pt-10">
-                      <div className="w-full max-w-[200px] space-y-2">
-                        <div className="h-2 rounded-full w-3/4" style={{ background: ss.accent, opacity: 0.35 }} />
-                        <div className="h-2 rounded-full w-full bg-white/[0.06]" />
-                        <div className="h-2 rounded-full w-5/6 bg-white/[0.06]" />
-                        <div className="h-6 rounded-lg w-1/2 mt-3" style={{ background: ss.accent, opacity: 0.25 }} />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-3 bg-surface-2/60">
-                    <p className="text-[12px] text-dark-300">{ss.caption}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.08 }}>
+            <ScreenshotGallery screenshots={media.screenshots as Array<{ alt: string; caption: string; gradient: string; accent: string }>} />
           </motion.section>
         )}
 
         {/* ── Video Tutorial ── */}
         {media?.video && (
-          <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.12 }} className="mb-8">
-            <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
-              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <VideoIcon size={20} className="text-brand-400" />
-                Video Tutorial
-              </h2>
-              <div className="aspect-video rounded-xl overflow-hidden bg-dark-900 border border-white/[0.06] mb-4">
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${media.video.youtubeId}`}
-                  title={media.video.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
-                  loading="lazy"
-                />
-              </div>
-              <h3 className="text-[15px] font-semibold text-white">{media.video.title}</h3>
-              <p className="text-[13px] text-dark-300 mt-1">{media.video.description}</p>
-              <span className="text-[12px] text-dark-400 mt-1 inline-block">Duration: {media.video.duration}</span>
-            </div>
+          <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.12 }}>
+            <VideoTutorial youtubeId={media.video.youtubeId} title={media.video.title} description={media.video.description} duration={media.video.duration} />
           </motion.section>
         )}
 
@@ -195,6 +153,13 @@ export default function ToolPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-6">
+            <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
+              <p className="mb-4 text-[13px] text-dark-300">
+                We base listings on publicly available information and encourage readers to verify pricing, limits, and availability on the official website before subscribing.
+              </p>
+              <EditorialBlock className="mt-2" />
+            </motion.section>
+
             {/* Overview */}
             <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
               <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
@@ -238,27 +203,8 @@ export default function ToolPage() {
             </motion.section>
 
             {/* Pros & Cons */}
-            <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
-                <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center"><CheckIcon size={14} className="text-emerald-400" /></div>Pros
-                </h2>
-                <ul className="space-y-2.5">
-                  {tool.pros.map((pro, i) => (
-                    <li key={i} className="flex items-start gap-2.5"><CheckIcon size={14} className="text-emerald-400 shrink-0 mt-0.5" /><span className="text-[13px] text-dark-200">{pro}</span></li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
-                <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-rose-500/15 flex items-center justify-center"><XIcon size={14} className="text-rose-400" /></div>Cons
-                </h2>
-                <ul className="space-y-2.5">
-                  {tool.cons.map((con, i) => (
-                    <li key={i} className="flex items-start gap-2.5"><XIcon size={14} className="text-rose-400 shrink-0 mt-0.5" /><span className="text-[13px] text-dark-200">{con}</span></li>
-                  ))}
-                </ul>
-              </div>
+            <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}>
+              <ProsCons pros={tool.pros} cons={tool.cons} className="mt-2" />
             </motion.section>
           </div>
 
@@ -266,30 +212,29 @@ export default function ToolPage() {
           <div className="space-y-6">
             {/* Quick Info */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5">
-              <h3 className="text-sm font-semibold text-white mb-4">Quick Info</h3>
+              <h3 className="mb-4 text-sm font-semibold text-white">Quick Info</h3>
               <div className="space-y-3">
-                {[
-                  ['Pricing', tool.pricing],
-                ].map(([label, value]) => (
-                  <div key={label} className="flex items-center justify-between py-2 border-b border-white/[0.04]">
-                    <span className="text-[13px] text-dark-300">{label}</span>
-                    <span className="text-[13px] font-medium text-white">{value}</span>
-                  </div>
-                ))}
-                <div className="flex items-center justify-between py-2 border-b border-white/[0.04]">
+                <div className="flex items-center justify-between border-b border-white/[0.04] py-2">
+                  <span className="text-[13px] text-dark-300">Pricing</span>
+                  <span className="text-[13px] font-medium text-white">{tool.pricing}</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-white/[0.04] py-2">
                   <span className="text-[13px] text-dark-300">Category</span>
                   <Link to={`/category/${tool.categorySlug}`} className="text-[13px] font-medium text-brand-400 hover:text-brand-300">{tool.category}</Link>
                 </div>
-                <div className="flex items-center justify-between py-2 border-b border-white/[0.04]">
+                <div className="flex items-center justify-between border-b border-white/[0.04] py-2">
                   <span className="text-[13px] text-dark-300">Rating</span>
-                  <div className="flex items-center gap-1"><StarIcon size={12} className="text-amber-400" /><span className="text-[13px] font-medium text-white">{tool.rating}</span></div>
+                  <span className="text-[13px] font-medium text-white">{tool.rating}/5</span>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-[13px] text-dark-300">Reviews</span>
                   <span className="text-[13px] font-medium text-white">{tool.reviews}</span>
                 </div>
               </div>
-              <a href={tool.website} target="_blank" rel="noopener noreferrer" className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium text-white border border-white/[0.08] hover:border-white/[0.15] bg-white/[0.02] hover:bg-white/[0.04] transition-all">
+              <div className="mt-4 rounded-xl border border-white/[0.06] bg-dark-900/50 p-3">
+                <p className="text-[12px] text-dark-300">Best for: {tool.useCases[0] || 'Teams and creators looking to move faster.'}</p>
+              </div>
+              <a href={tool.website} target="_blank" rel="noopener noreferrer" className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.02] px-4 py-2.5 text-[13px] font-medium text-white transition-all hover:border-white/[0.15] hover:bg-white/[0.04]">
                 Visit Website<ExternalLinkIcon size={13} />
               </a>
             </motion.div>
@@ -335,7 +280,7 @@ export default function ToolPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="text-[13px] font-medium text-white truncate">{r.name}</div>
-                          <div className="flex items-center gap-1"><StarIcon size={10} className="text-amber-400" /><span className="text-[11px] text-dark-400">{r.rating}</span></div>
+                          <div className="text-[11px] text-dark-400">{r.pricing}</div>
                         </div>
                       </Link>
                     </li>

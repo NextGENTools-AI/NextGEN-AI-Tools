@@ -52,7 +52,7 @@ export default function Search() {
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="Search 2,400+ AI tools..."
+                placeholder="Search our AI tool catalog..."
                 className="w-full bg-transparent pl-13 pr-4 py-4.5 text-[15px] text-white placeholder-dark-300 focus:outline-none rounded-2xl"
               />
               <button onClick={handleSearch} className="btn-primary mr-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold text-white shrink-0">

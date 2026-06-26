@@ -5,6 +5,7 @@ import { LogoIcon, MenuIcon, CloseIcon } from './Icons';
 
 const navLinks = [
   { label: 'Tools', href: '/categories' },
+  { label: 'Best Tools', href: '/best' },
   { label: 'Compare', href: '/compare' },
   { label: 'Prompts', href: '/prompts' },
   { label: 'Blog', href: '/blog' },

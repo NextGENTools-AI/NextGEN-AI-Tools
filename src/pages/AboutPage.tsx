@@ -6,31 +6,31 @@ import { UsersIcon, ZapIcon, ShieldIcon, SparkleIcon, ArrowRightIcon } from '../
 const values = [
   {
     icon: SparkleIcon,
-    title: 'Quality First',
-    description: 'Every tool in our directory is thoroughly vetted by our editorial team to ensure accuracy and relevance.',
+    title: 'Clear Listings',
+    description: 'We keep tool listings easy to scan with concise summaries, pricing notes, and category placement.',
   },
   {
     icon: UsersIcon,
-    title: 'Community Driven',
-    description: 'We listen to our users and continuously improve based on feedback from the AI tools community.',
+    title: 'Useful Context',
+    description: 'We aim to make it easier to compare tools by use case rather than rely on hype.',
   },
   {
     icon: ZapIcon,
-    title: 'Always Current',
-    description: 'The AI landscape evolves rapidly. We update our directory daily to reflect new tools and changes.',
+    title: 'Regularly Refreshed',
+    description: 'The directory is updated as tools and pricing evolve, so the information stays useful.',
   },
   {
     icon: ShieldIcon,
-    title: 'Unbiased Reviews',
-    description: 'Our reviews are independent and honest. We never accept payment for favorable coverage.',
+    title: 'Transparent Approach',
+    description: 'We focus on clear descriptions and practical comparisons rather than unsupported claims.',
   },
 ];
 
 const stats = [
-  { value: '2,400+', label: 'AI Tools Listed' },
-  { value: '50+', label: 'Categories' },
-  { value: '180K+', label: 'Monthly Visitors' },
-  { value: '500+', label: 'Expert Reviews' },
+  { value: 'Curated', label: 'Tool Listings' },
+  { value: 'Updated', label: 'Regularly' },
+  { value: 'Organized', label: 'By Category' },
+  { value: 'Browseable', label: 'By Use Case' },
 ];
 
 const team = [
@@ -49,8 +49,8 @@ export default function AboutPage() {
   return (
     <>
       <SEO
-        title="About Us — Our Mission to Democratize AI"
-        description="Learn about NextGEN AI Tools, the most comprehensive AI tools directory. Our mission is to help everyone discover and leverage the best AI solutions."
+        title="About Us — Curated AI Tool Discovery"
+        description="Learn about NextGEN AI Tools, a curated directory for discovering AI tools by category, pricing, and use case."
         canonical="/about"
         keywords="about NextGEN AI, AI tools directory, AI discovery platform, artificial intelligence tools"
         structuredData={breadcrumbSchema}
@@ -66,13 +66,11 @@ export default function AboutPage() {
             className="text-center max-w-3xl mx-auto mb-20"
           >
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
-              Helping the world discover
-              <span className="gradient-text-brand"> the best AI tools</span>
+              Helping people explore
+              <span className="gradient-text-brand"> AI tools with less noise</span>
             </h1>
             <p className="text-base sm:text-lg text-dark-200 leading-relaxed">
-              NextGEN AI Tools is the most comprehensive directory of AI-powered solutions. 
-              We're on a mission to democratize access to artificial intelligence by making 
-              it easy for anyone to find, compare, and integrate the right AI tools for their needs.
+              NextGEN AI Tools is a curated directory of AI-powered solutions. We organize options by category and make it easier to compare features, pricing, and use cases without relying on hype.
             </p>
           </motion.div>
 
@@ -105,21 +103,13 @@ export default function AboutPage() {
               <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-8">Our Story</h2>
               <div className="space-y-4 text-[15px] text-dark-200 leading-relaxed">
                 <p>
-                  NextGEN AI Tools was founded in 2023 with a simple observation: the AI tools 
-                  landscape was exploding, but there was no reliable way to discover and compare 
-                  the options available. Professionals, creators, and businesses were spending 
-                  hours researching tools that might not even fit their needs.
+                  The AI tools landscape is moving quickly, and it can be hard to compare options from one place. We created this directory to make that process easier.
                 </p>
                 <p>
-                  We set out to solve this problem by creating a comprehensive, curated directory 
-                  where anyone can quickly find the right AI tool for their specific use case. 
-                  Every tool in our directory is reviewed by our editorial team, ensuring accurate 
-                  information and honest assessments.
+                  We organize AI tools by category and add practical context so visitors can compare features, pricing, and use cases more clearly. We also update listings as the information changes.
                 </p>
                 <p>
-                  Today, NextGEN AI Tools serves over 180,000 monthly visitors, helping students, 
-                  freelancers, marketers, developers, and enterprise teams navigate the AI revolution. 
-                  We're proud to be a trusted resource in the AI community, and we're just getting started.
+                  As the space evolves, we keep refining the directory so it remains a useful place to explore ideas, tools, and workflows.
                 </p>
               </div>
             </div>

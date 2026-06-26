@@ -5,18 +5,18 @@ import { ArrowRightIcon, ZapIcon, UsersIcon, SparkleIcon } from './Icons';
 const features = [
   {
     icon: ZapIcon,
-    title: 'Updated Daily',
-    desc: 'New AI tools added and reviewed every single day.',
+    title: 'Regularly Updated',
+    desc: 'New listings are added as the tool landscape changes.',
   },
   {
     icon: UsersIcon,
-    title: 'Community Driven',
-    desc: 'Real reviews and ratings from verified users.',
+    title: 'Easy to Browse',
+    desc: 'Compare tools by category, pricing, and use case.',
   },
   {
     icon: SparkleIcon,
-    title: 'Expert Curated',
-    desc: 'Every tool is vetted by our editorial team.',
+    title: 'Organized by Use Case',
+    desc: 'Find options for writing, coding, design, and more.',
   },
 ];
 
@@ -47,7 +47,7 @@ export default function CTA() {
             <span className="gradient-text-brand">AI-powered tool?</span>
           </h2>
           <p className="mt-5 text-[15px] sm:text-base text-dark-200 max-w-xl mx-auto leading-relaxed">
-            Join thousands of professionals who use NextGEN AI to discover and integrate the best AI tools into their workflow.
+            Explore a curated collection of AI tools and compare options by category, pricing, and use case.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">

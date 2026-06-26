@@ -166,11 +166,7 @@ export default function CategoryPage() {
 
                 {/* Footer */}
                 <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
-                  <div className="flex items-center gap-1.5">
-                    <StarIcon size={13} className="text-amber-400" />
-                    <span className="text-[13px] font-semibold text-white">{tool.rating}</span>
-                    <span className="text-[12px] text-dark-400">({tool.reviews})</span>
-                  </div>
+                  <span className="text-[12px] text-dark-400">See details</span>
                   <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-md uppercase tracking-wide ${
                     tool.pricing === 'Freemium'
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'

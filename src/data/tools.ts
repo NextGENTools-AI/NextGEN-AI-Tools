@@ -229,7 +229,7 @@ export const tools: Tool[] = [
     name: 'Grammarly',
     slug: 'grammarly',
     tagline: 'AI writing assistant for clear, effective communication',
-    description: 'Grammarly is the most widely-used AI writing assistant, helping millions of users improve their writing with real-time grammar, spelling, punctuation, and style suggestions. The premium version includes advanced features like tone detection, plagiarism checking, and full-sentence rewrites.',
+    description: 'Grammarly is an AI writing assistant for grammar, spelling, punctuation, and style suggestions. The premium version adds features like tone detection, plagiarism checking, and full-sentence rewrites.',
     category: 'AI Writing',
     categorySlug: 'ai-writing',
     website: 'https://www.grammarly.com',
@@ -259,7 +259,7 @@ export const tools: Tool[] = [
       'Works across all platforms and devices',
       'Intuitive and non-intrusive interface',
       'Strong free tier',
-      'Trusted by millions of users',
+      'Widely used for proofreading and editing',
     ],
     cons: [
       'Premium features require subscription',
@@ -560,7 +560,7 @@ export const tools: Tool[] = [
     logo: 'C',
     gradient: 'from-purple-500/20 to-violet-600/20',
     features: [
-      'Millions of user-created characters',
+      'Large selection of community-created characters',
       'Character creation tools',
       'Group chats with multiple characters',
       'Voice chat capabilities',
@@ -1776,7 +1776,7 @@ export const tools: Tool[] = [
       'High-quality content',
       'AI tutor is helpful',
       'Wide subject coverage',
-      'Trusted platform',
+      'Publicly documented platform',
     ],
     cons: [
       'Khanmigo has limited availability',

@@ -6,6 +6,8 @@ import { getComparisonBySlug, getRelatedComparisons } from '../data/comparisons'
 import { 
   CheckIcon, XIcon, StarIcon, ArrowRightIcon
 } from '../components/Icons';
+import LastUpdated from '../components/LastUpdated';
+import EditorialBlock from '../components/EditorialBlock';
 
 export default function ComparisonPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -83,13 +85,12 @@ export default function ComparisonPage() {
             {comparison.title}
           </h1>
           
-          <p className="text-dark-300 text-[13px]">
-            Last updated: {new Date(comparison.updatedAt).toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric',
-            })}
-          </p>
+          <div className="mt-3 flex flex-col items-center gap-2">
+            <LastUpdated date={comparison.updatedAt} />
+            <p className="text-[13px] text-dark-300">
+              Comparisons are research summaries based on public information and may change as products evolve.
+            </p>
+          </div>
         </motion.div>
 
         {/* Quick Verdict */}
@@ -132,6 +133,7 @@ export default function ComparisonPage() {
           className="mb-12"
         >
           <Card>
+            <EditorialBlock className="mb-6" />
             <h2 className="text-xl font-semibold text-white mb-4">Overview</h2>
             <p className="text-[14px] text-dark-200 leading-relaxed">
               {comparison.introduction}

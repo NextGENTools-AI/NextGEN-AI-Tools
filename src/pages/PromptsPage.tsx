@@ -127,7 +127,7 @@ export default function PromptsPage() {
     <>
       <SEO
         title="AI Prompt Library — Ready-to-Use Prompts for ChatGPT, Claude & More"
-        description="Browse our collection of expertly crafted AI prompts. Copy-paste prompts for writing, coding, marketing, design, and more. Works with ChatGPT, Claude, Midjourney."
+        description="Browse a collection of AI prompt templates for writing, coding, marketing, design, and more. These examples can be adapted for tools such as ChatGPT, Claude, and Midjourney."
         canonical="/prompts"
         keywords="AI prompts, ChatGPT prompts, Claude prompts, Midjourney prompts, prompt templates, prompt engineering"
         structuredData={breadcrumbSchema}
@@ -136,7 +136,7 @@ export default function PromptsPage() {
       <PageLayout>
         <PageHeader
           title="AI Prompt Library"
-          description="Expertly crafted prompts ready to copy and use. Boost your productivity with battle-tested prompts for writing, coding, marketing, and more."
+          description="Prompt templates you can adapt for writing, coding, marketing, and more. Review and adjust them to fit your workflow and the tool you are using."
           badge="Free to Use"
         />
 

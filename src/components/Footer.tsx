@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { LogoIcon, TwitterIcon, GithubIcon, LinkedInIcon, DiscordIcon } from './Icons';
+import { LogoIcon } from './Icons';
+import TrustBadges from './TrustBadges';
 
 const footerLinks = {
   Product: [
@@ -17,25 +18,20 @@ const footerLinks = {
     { label: 'AI Video', href: '/category/ai-video-generation', internal: true },
   ],
   Resources: [
-    { label: 'Blog', href: '/blog', internal: true },
+    { label: 'Best AI Tools', href: '/best', internal: true },
+    { label: 'Best Free AI Tools', href: '/best/free', internal: true },
     { label: 'ChatGPT vs Claude', href: '/compare/chatgpt-vs-claude', internal: true },
-    { label: 'AI Tools for Students', href: '/blog/best-ai-tools-for-students', internal: true },
-    { label: 'Best AI Writing Tools', href: '/blog/best-ai-writing-tools', internal: true },
+    { label: 'Prompt Library', href: '/prompts', internal: true },
   ],
   Company: [
     { label: 'About', href: '/about', internal: true },
+    { label: 'Editorial Policy', href: '/editorial-policy', internal: true },
+    { label: 'Affiliate Disclosure', href: '/editorial-policy#affiliate-disclosure', internal: true },
     { label: 'Contact', href: '/contact', internal: true },
     { label: 'Privacy Policy', href: '/privacy', internal: true },
     { label: 'Terms of Service', href: '/terms', internal: true },
   ],
 };
-
-const socialLinks = [
-  { icon: TwitterIcon, href: '#', label: 'Twitter' },
-  { icon: GithubIcon, href: '#', label: 'GitHub' },
-  { icon: LinkedInIcon, href: '#', label: 'LinkedIn' },
-  { icon: DiscordIcon, href: '#', label: 'Discord' },
-];
 
 export default function Footer() {
   return (
@@ -52,23 +48,11 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-[13px] text-dark-300 leading-relaxed max-w-xs mb-6">
-              The most comprehensive directory of AI-powered tools. Discover, compare, and integrate the right AI solutions.
+              A curated directory for exploring AI tools by category, pricing, and use case. We aim to present information clearly and keep it grounded in public sources.
             </p>
-            {/* Social links */}
-            <div className="flex items-center gap-2">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-9 h-9 rounded-lg border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/[0.12] flex items-center justify-center text-dark-300 hover:text-white transition-all duration-200"
-                  >
-                    <Icon size={16} />
-                  </a>
-                );
-              })}
+            <p className="text-[12px] text-dark-400">We may earn a commission from some links at no extra cost to you.</p>
+            <div className="mt-4">
+              <TrustBadges className="justify-start" />
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon, SparkleIcon } from './Icons';
+import TrustBadges from './TrustBadges';
 
 export default function Hero() {
   return (
@@ -76,8 +77,8 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.35 }}
             className="text-base sm:text-lg md:text-xl text-dark-200 max-w-2xl mx-auto mb-10 leading-relaxed font-light"
           >
-            The most comprehensive directory of AI-powered tools.
-            Find, compare, and integrate the right AI solutions for your workflow.
+            A curated directory of AI tools for writing, coding, image generation, video, and more.
+            Browse by category and compare options without the usual hype.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -104,23 +105,14 @@ export default function Hero() {
             </Link>
           </motion.div>
 
-          {/* Stats row */}
+          {/* Trust badges row */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.65 }}
-            className="mt-16 flex items-center justify-center gap-8 sm:gap-14"
+            className="mt-12"
           >
-            {[
-              { value: '2,400+', label: 'AI Tools' },
-              { value: '50+', label: 'Categories' },
-              { value: '180K+', label: 'Monthly Users' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-xl sm:text-2xl font-bold text-white">{stat.value}</div>
-                <div className="text-[12px] sm:text-[13px] text-dark-300 mt-0.5 font-medium">{stat.label}</div>
-              </div>
-            ))}
+            <TrustBadges />
           </motion.div>
         </div>
       </div>

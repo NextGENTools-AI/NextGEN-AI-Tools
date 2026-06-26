@@ -177,11 +177,7 @@ export default function SearchPage() {
                   </div>
                   <p className="text-[13px] text-dark-300 mb-3 line-clamp-2">{tool.tagline}</p>
                   <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
-                    <div className="flex items-center gap-1.5">
-                      <StarIcon size={13} className="text-amber-400" />
-                      <span className="text-[13px] font-semibold text-white">{tool.rating}</span>
-                      <span className="text-[12px] text-dark-400">({tool.reviews})</span>
-                    </div>
+                    <span className="text-[12px] text-dark-400">Open listing</span>
                     <span className={`text-[11px] font-semibold px-2 py-0.5 rounded uppercase ${
                       tool.pricing === 'Free' || tool.pricing === 'Freemium'
                         ? 'bg-emerald-500/10 text-emerald-400'
