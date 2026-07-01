@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 interface PageLayoutProps {
   children: ReactNode;
   className?: string;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl' | '7xl';
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl' | '6xl' | '7xl';
 }
 
 const maxWidthClasses = {
@@ -15,6 +15,7 @@ const maxWidthClasses = {
   '2xl': 'max-w-2xl',
   '4xl': 'max-w-4xl',
   '5xl': 'max-w-5xl',
+  '6xl': 'max-w-6xl',
   '7xl': 'max-w-7xl',
 };
 

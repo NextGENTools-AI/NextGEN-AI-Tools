@@ -10,6 +10,7 @@ export interface Prompt {
   tags: string[];
   useCases: string[];
   tips: string[];
+  difficulty?: string;
   example?: {
     input?: string;
     output?: string;
@@ -556,7 +557,29 @@ Academic tone, objective analysis.`,
 ];
 
 export function getPromptById(id: string): Prompt | undefined {
-  return prompts.find(p => p.id === id);
+  return prompts.find((prompt) => prompt.id === id);
+}
+
+export function getPromptBySlug(slug: string): Prompt | undefined {
+  const normalized = slug.trim().toLowerCase();
+
+  if (!normalized) {
+    return undefined;
+  }
+
+  return prompts.find((prompt) => {
+    const promptSlug = prompt.id.toLowerCase();
+    const titleSlug = prompt.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    return promptSlug === normalized || titleSlug === normalized;
+  });
+}
+
+export function getPromptBySlugOrId(identifier: string): Prompt | undefined {
+  return getPromptById(identifier) ?? getPromptBySlug(identifier);
 }
 
 export function getPromptsByCategory(categorySlug: string): Prompt[] {

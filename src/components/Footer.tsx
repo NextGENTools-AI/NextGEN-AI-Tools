@@ -47,7 +47,7 @@ export default function Footer() {
                 NextGEN<span className="text-brand-400 ml-0.5">AI</span>
               </span>
             </Link>
-            <p className="text-[13px] text-dark-300 leading-relaxed max-w-xs mb-6">
+            <p className="text-[13px] text-dark-200 leading-relaxed leading-relaxed max-w-xs mb-6">
               A curated directory for exploring AI tools by category, pricing, and use case. We aim to present information clearly and keep it grounded in public sources.
             </p>
             <p className="text-[12px] text-dark-400">We may earn a commission from some links at no extra cost to you.</p>

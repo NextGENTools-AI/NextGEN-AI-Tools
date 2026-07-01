@@ -108,7 +108,7 @@ export default function SubmitToolPage() {
                 </div>
                 <h2 className="text-xl font-semibold text-white mb-3">Submission Received!</h2>
                 <p className="text-[14px] text-dark-300 max-w-md mx-auto mb-6">
-                  Thanks for sharing your tool. This form is a demo submission flow at the moment, so we may not process it automatically yet. We’ll follow up through the contact details you provided when a real submission process is in place.
+                  Thanks for sharing your tool. Your submission has been recorded as pending review and will be checked manually before it can appear publicly in our directory.
                 </p>
                 <button
                   onClick={() => {
@@ -307,7 +307,7 @@ export default function SubmitToolPage() {
                     <span className="relative z-10">Submit Tool Inquiry</span>
                   </button>
                   <p className="mt-3 text-[12px] text-dark-400">
-                    By submitting, you agree to our terms and confirm that you have the right to submit this tool.
+                    Submissions are reviewed manually and marked as pending before they are approved for publication.
                   </p>
                 </div>
               </form>

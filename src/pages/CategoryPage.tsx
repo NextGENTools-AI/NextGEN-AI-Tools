@@ -6,7 +6,7 @@ import { ToolLogo } from '../components/ToolLogos';
 import {
   PenIcon, BotIcon, CodeIcon, ImageIcon, VideoIcon,
   ChartIcon, ZapIcon, BrainIcon, BriefcaseIcon, SearchIcon,
-  ChevronLeftIcon, StarIcon, ExternalLinkIcon, ArrowRightIcon
+  ChevronLeftIcon, ExternalLinkIcon, ArrowRightIcon
 } from '../components/Icons';
 
 const iconMap: Record<string, React.FC<{ size?: number; className?: string }>> = {
@@ -108,7 +108,7 @@ export default function CategoryPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-16"
         >
           <div className="flex items-start gap-5 mb-4">
             <div className={`w-14 h-14 rounded-xl ${category.bgColor} border ${category.borderColor} flex items-center justify-center shrink-0`}>
@@ -123,25 +123,48 @@ export default function CategoryPage() {
               </p>
             </div>
           </div>
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-8 flex flex-wrap gap-3">
+            <div className="px-4 py-2 rounded-xl border border-white/[0.06] bg-surface-2/40">
+              <span className="text-white font-semibold">{tools.length}</span>
+              <span className="text-dark-300 text-sm ml-2">Tools</span>
+            </div>
+
+           <div className="px-4 py-2 rounded-xl border border-white/[0.06] bg-surface-2/40">
+             <span className="text-white font-semibold">Updated</span>
+             <span className="text-dark-300 text-sm ml-2">2026</span>
+           </div>
+
+           <div className="px-4 py-2 rounded-xl border border-white/[0.06] bg-surface-2/40">
+             <span className="text-white font-semibold">Curated</span>
+             <span className="text-dark-300 text-sm ml-2">Selection</span>
+          </div>
+      
             <span className="text-[13px] font-medium text-dark-300">
               {tools.length} tools available
             </span>
           </div>
         </motion.div>
+<div className="mb-8">
+  <h2 className="text-2xl font-bold text-white">
+    Top {category.name} Tools
+  </h2>
 
+  <p className="mt-2 text-dark-300">
+    Compare features, pricing, strengths and weaknesses.
+  </p>
+</div>
         {/* Tools Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {tools.map((tool) => (
             <motion.div key={tool.id} variants={cardVariants}>
               <Link
                 to={`/tool/${tool.slug}`}
-                className="group card-hover block h-full rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5"
+                className="group card-hover block h-full rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6"
               >
                 {/* Header */}
                 <div className="flex items-start gap-3.5 mb-4">
@@ -150,7 +173,7 @@ export default function CategoryPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className="text-[15px] font-semibold text-white truncate group-hover:text-brand-400 transition-colors">
+                      <h3 className="text-[16px] font-semibold text-white truncate group-hover:text-brand-400 transition-colors">
                         {tool.name}
                       </h3>
                       <ExternalLinkIcon size={13} className="text-dark-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
@@ -191,12 +214,16 @@ export default function CategoryPage() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-16 text-center"
         >
-          <p className="text-dark-300 mb-4">
-            Can't find what you're looking for?
+          <h3 className="text-xl font-semibold text-white mb-3">
+            Need More AI Tools?
+         </h3>
+
+           <p className="text-dark-300 mb-6">
+            Explore every category in our directory.
           </p>
           <Link
             to="/categories"
-            className="inline-flex items-center gap-2 text-[14px] font-medium text-brand-400 hover:text-brand-300 transition-colors"
+            className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[14px] font-semibold text-white"
           >
             Browse all categories
             <ArrowRightIcon size={16} />

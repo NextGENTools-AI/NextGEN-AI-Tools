@@ -1,248 +1,284 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SEO, { generateBreadcrumbSchema } from '../components/SEO';
-import PageLayout, { PageHeader, Card } from '../components/layouts/PageLayout';
-import { getAllPrompts, promptCategories, getPromptsByCategory, type Prompt } from '../data/prompts';
-import { 
-  SearchIcon, StarIcon, CheckIcon, ArrowRightIcon,
-  PenIcon, CodeIcon, ChartIcon, BriefcaseIcon, ImageIcon, BrainIcon, ZapIcon
-} from '../components/Icons';
+import { motion } from 'framer-motion';
 
-const iconMap: Record<string, React.FC<{ size?: number; className?: string }>> = {
-  pen: PenIcon,
-  code: CodeIcon,
-  chart: ChartIcon,
-  briefcase: BriefcaseIcon,
-  image: ImageIcon,
-  brain: BrainIcon,
-  zap: ZapIcon,
-  search: SearchIcon,
-};
+import SEO from '../components/SEO';
+import PageLayout, { Breadcrumb, Card } from '../components/layouts/PageLayout';
+import { ArrowRightIcon, SearchIcon } from '../components/Icons';
+import {
+  promptCategories as sharedPromptCategories,
+  prompts as sharedPrompts,
+  type Prompt as SharedPrompt,
+  type PromptCategory as SharedPromptCategory,
+} from '../data/prompts';
 
-// Custom copy icon
-function CopyIcon2({ size = 16, className = '' }: { size?: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <rect x="9" y="9" width="13" height="13" rx="2" />
-      <path d="M5 15H4C2.9 15 2 14.1 2 13V4C2 2.9 2.9 2 4 2H13C14.1 2 15 2.9 15 4V5" />
-    </svg>
+export type PromptDifficulty = 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+
+export interface PromptVariable {
+  name: string;
+  description: string;
+  example: string;
+}
+
+export interface Prompt extends Omit<SharedPrompt, 'difficulty'> {
+  difficulty: PromptDifficulty;
+}
+
+export interface PromptCategory extends Omit<SharedPromptCategory, 'count'> {}
+
+export const promptCategories: PromptCategory[] = sharedPromptCategories.map(
+  ({ slug, name, description, icon }) => ({
+    slug,
+    name,
+    description,
+    icon,
+  })
+);
+
+export const prompts: Prompt[] = sharedPrompts.map((prompt) => ({
+  ...prompt,
+  difficulty: (prompt.difficulty as PromptDifficulty) ?? 'Intermediate',
+}));
+
+export function getAllPrompts(): Prompt[] {
+  return prompts;
+}
+
+export function getPromptById(id: string): Prompt | undefined {
+  return prompts.find((prompt) => prompt.id === id);
+}
+
+export function getPromptsByCategory(categorySlugOrName: string): Prompt[] {
+  const normalized = categorySlugOrName.toLowerCase();
+
+  return prompts.filter(
+    (prompt) =>
+      prompt.categorySlug.toLowerCase() === normalized ||
+      prompt.category.toLowerCase() === normalized
   );
 }
 
-function PromptCard({ prompt }: { prompt: Prompt }) {
-  const [copied, setCopied] = useState(false);
-  
-  const handleCopy = () => {
-    navigator.clipboard.writeText(prompt.prompt);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+export function getPromptsByDifficulty(difficulty: PromptDifficulty): Prompt[] {
+  return prompts.filter((prompt) => prompt.difficulty === difficulty);
+}
+
+export function searchPrompts(query: string): Prompt[] {
+  const normalized = query.trim().toLowerCase();
+
+  if (!normalized) {
+    return prompts;
+  }
+
+  return prompts.filter((prompt) => {
+    return (
+      prompt.title.toLowerCase().includes(normalized) ||
+      prompt.description.toLowerCase().includes(normalized) ||
+      prompt.prompt.toLowerCase().includes(normalized) ||
+      prompt.category.toLowerCase().includes(normalized) ||
+      prompt.difficulty.toLowerCase().includes(normalized) ||
+      prompt.tags.some((tag) => tag.toLowerCase().includes(normalized))
+    );
+  });
+}
+
+export function getFeaturedPrompts(limit = 12): Prompt[] {
+  return [...prompts]
+    .sort((a, b) => b.rating - a.rating || b.copyCount - a.copyCount)
+    .slice(0, limit);
+}
+
+export function getPopularPrompts(limit = 12): Prompt[] {
+  return [...prompts].sort((a, b) => b.copyCount - a.copyCount).slice(0, limit);
+}
+
+export function getRelatedPrompts(promptId: string, limit = 3): Prompt[] {
+  const prompt = getPromptById(promptId);
+
+  if (!prompt) {
+    return [];
+  }
+
+  return prompts
+    .filter(
+      (item) =>
+        item.id !== prompt.id &&
+        (item.categorySlug === prompt.categorySlug ||
+          item.tags.some((tag) => prompt.tags.includes(tag)))
+    )
+    .slice(0, limit);
+}
+
+export function getPromptStats() {
+  return {
+    totalPrompts: prompts.length,
+    totalCategories: promptCategories.length,
+    categories: promptCategories.map((category) => ({
+      ...category,
+      count: getPromptsByCategory(category.slug).length,
+    })),
   };
-
-  return (
-    <Card className="h-full flex flex-col">
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div>
-          <span className="text-[11px] font-medium text-brand-400 uppercase tracking-wide">
-            {prompt.tool}
-          </span>
-          <h3 className="text-[15px] font-semibold text-white mt-1">
-            {prompt.title}
-          </h3>
-        </div>
-        <div className="flex items-center gap-1 shrink-0">
-          <StarIcon size={12} className="text-amber-400" />
-          <span className="text-[12px] font-medium text-white">{prompt.rating}</span>
-        </div>
-      </div>
-
-      <p className="text-[13px] text-dark-300 mb-4 flex-1 line-clamp-2">
-        {prompt.description}
-      </p>
-
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {prompt.tags.slice(0, 3).map((tag) => (
-          <span
-            key={tag}
-            className="px-2 py-0.5 text-[10px] font-medium text-dark-300 rounded bg-white/[0.03] border border-white/[0.04]"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
-        <span className="text-[11px] text-dark-400">
-          {prompt.copyCount.toLocaleString()} copies
-        </span>
-        <div className="flex items-center gap-2">
-          <Link
-            to={`/prompts/${prompt.id}`}
-            className="text-[12px] font-medium text-dark-300 hover:text-white transition-colors"
-          >
-            View
-          </Link>
-          <button
-            onClick={handleCopy}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
-              copied
-                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                : 'bg-brand-500/10 text-brand-400 border border-brand-500/20 hover:bg-brand-500/20'
-            }`}
-          >
-            {copied ? <CheckIcon size={12} /> : <CopyIcon2 size={12} />}
-            {copied ? 'Copied!' : 'Copy'}
-          </button>
-        </div>
-      </div>
-    </Card>
-  );
 }
 
 export default function PromptsPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  const allPrompts = getAllPrompts();
-  
-  let filteredPrompts = selectedCategory 
-    ? getPromptsByCategory(selectedCategory)
-    : allPrompts;
-  
-  if (searchQuery) {
-    const query = searchQuery.toLowerCase();
-    filteredPrompts = filteredPrompts.filter(p =>
-      p.title.toLowerCase().includes(query) ||
-      p.description.toLowerCase().includes(query) ||
-      p.tags.some(t => t.toLowerCase().includes(query))
-    );
-  }
-  
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Home', url: '/' },
-    { name: 'Prompt Library', url: '/prompts' },
-  ]);
+  const [query, setQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedDifficulty, setSelectedDifficulty] = useState('all');
+
+  const filteredPrompts = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    return prompts.filter((prompt) => {
+      const matchesQuery =
+        normalizedQuery.length === 0 ||
+        prompt.title.toLowerCase().includes(normalizedQuery) ||
+        prompt.description.toLowerCase().includes(normalizedQuery) ||
+        prompt.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery)) ||
+        prompt.category.toLowerCase().includes(normalizedQuery);
+
+      const matchesCategory =
+        selectedCategory === 'all' || prompt.categorySlug === selectedCategory;
+
+      const matchesDifficulty =
+        selectedDifficulty === 'all' || prompt.difficulty === selectedDifficulty;
+
+      return matchesQuery && matchesCategory && matchesDifficulty;
+    });
+  }, [query, selectedCategory, selectedDifficulty]);
 
   return (
     <>
       <SEO
-        title="AI Prompt Library — Ready-to-Use Prompts for ChatGPT, Claude & More"
-        description="Browse a collection of AI prompt templates for writing, coding, marketing, design, and more. These examples can be adapted for tools such as ChatGPT, Claude, and Midjourney."
+        title="Prompt Library — AI Prompts for Writing, Coding, Marketing, and More"
+        description="Browse a curated collection of high-performing AI prompts for writing, coding, marketing, research, and productivity."
         canonical="/prompts"
-        keywords="AI prompts, ChatGPT prompts, Claude prompts, Midjourney prompts, prompt templates, prompt engineering"
-        structuredData={breadcrumbSchema}
       />
 
       <PageLayout>
-        <PageHeader
-          title="AI Prompt Library"
-          description="Prompt templates you can adapt for writing, coding, marketing, and more. Review and adjust them to fit your workflow and the tool you are using."
-          badge="Free to Use"
+        <Breadcrumb
+          items={[{ label: 'Home', href: '/' }, { label: 'Prompt Library' }]}
         />
 
-        {/* Search & Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.5 }}
           className="mb-10"
         >
-          {/* Search */}
-          <div className="relative max-w-xl mx-auto mb-6">
-            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400" size={18} />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search prompts..."
-              className="w-full bg-dark-800/60 border border-white/[0.06] rounded-xl pl-11 pr-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 transition-all"
-            />
-          </div>
-
-          {/* Category Pills */}
-          <div className="flex flex-wrap justify-center gap-2">
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all ${
-                !selectedCategory
-                  ? 'bg-brand-500/20 text-brand-400 border border-brand-500/30'
-                  : 'text-dark-300 border border-white/[0.06] hover:border-white/[0.12] hover:text-white'
-              }`}
-            >
-              All Prompts
-            </button>
-            {promptCategories.map((cat) => {
-              const Icon = iconMap[cat.icon] || BrainIcon;
-              return (
-                <button
-                  key={cat.slug}
-                  onClick={() => setSelectedCategory(cat.slug)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all ${
-                    selectedCategory === cat.slug
-                      ? 'bg-brand-500/20 text-brand-400 border border-brand-500/30'
-                      : 'text-dark-300 border border-white/[0.06] hover:border-white/[0.12] hover:text-white'
-                  }`}
-                >
-                  <Icon size={14} />
-                  {cat.name}
-                </button>
-              );
-            })}
-          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
+            Prompt Library
+          </h1>
+          <p className="text-dark-300 max-w-2xl">
+            Find ready-to-use prompts for writing, coding, marketing, design, and research.
+          </p>
         </motion.div>
 
-        {/* Prompts Grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-        >
-          {filteredPrompts.map((prompt, index) => (
-            <motion.div
-              key={prompt.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-            >
-              <PromptCard prompt={prompt} />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {filteredPrompts.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-dark-300 mb-4">No prompts found matching your criteria.</p>
-            <button
-              onClick={() => { setSearchQuery(''); setSelectedCategory(null); }}
-              className="text-brand-400 hover:text-brand-300 font-medium"
-            >
-              Clear filters
-            </button>
-          </div>
-        )}
-
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16 text-center"
+          transition={{ duration: 0.5, delay: 0.05 }}
+          className="mb-8 grid gap-4 lg:grid-cols-[1.4fr_0.8fr_0.8fr]"
         >
-          <Card className="max-w-2xl mx-auto">
-            <h3 className="text-lg font-semibold text-white mb-2">Have a great prompt to share?</h3>
-            <p className="text-[14px] text-dark-300 mb-4">
-              Help the community by submitting your best prompts. We'll credit you and add it to the library.
-            </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 text-[14px] font-medium text-brand-400 hover:text-brand-300"
+          <label className="relative block">
+            <span className="sr-only">Search prompts</span>
+            <SearchIcon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search prompts"
+              className="w-full rounded-2xl border border-white/[0.06] bg-surface-2/40 py-3 pl-11 pr-4 text-sm text-white outline-none ring-0"
+            />
+          </label>
+
+          <label className="block">
+            <span className="sr-only">Filter by category</span>
+            <select
+              value={selectedCategory}
+              onChange={(event) => setSelectedCategory(event.target.value)}
+              className="w-full rounded-2xl border border-white/[0.06] bg-surface-2/40 px-4 py-3 text-sm text-white outline-none"
             >
-              Submit a prompt
-              <ArrowRightIcon size={14} />
-            </Link>
-          </Card>
+              <option value="all">All categories</option>
+              {promptCategories.map((category) => (
+                <option key={category.slug} value={category.slug}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="block">
+            <span className="sr-only">Filter by difficulty</span>
+            <select
+              value={selectedDifficulty}
+              onChange={(event) => setSelectedDifficulty(event.target.value)}
+              className="w-full rounded-2xl border border-white/[0.06] bg-surface-2/40 px-4 py-3 text-sm text-white outline-none"
+            >
+              <option value="all">All difficulties</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+              <option value="Expert">Expert</option>
+            </select>
+          </label>
         </motion.div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          {filteredPrompts.map((prompt) => (
+            <motion.article
+              key={prompt.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="h-full">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-brand-400 mb-2">
+                      {prompt.category}
+                    </p>
+                    <h2 className="text-lg font-semibold text-white">{prompt.title}</h2>
+                  </div>
+                  <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] text-dark-300">
+                    {prompt.difficulty}
+                  </span>
+                </div>
+
+                <p className="mt-3 text-sm text-dark-300 leading-relaxed">
+                  {prompt.description}
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {prompt.tags.slice(0, 4).map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-white/[0.06] bg-white/[0.03] px-2.5 py-1 text-[11px] text-dark-400"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-6 flex items-center justify-between">
+                  <span className="text-sm text-dark-400">
+                    {prompt.copyCount.toLocaleString()} copies
+                  </span>
+                  <Link
+                    to={`/prompts/${prompt.id}`}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand-400 hover:text-brand-300"
+                  >
+                    View prompt
+                    <ArrowRightIcon size={14} />
+                  </Link>
+                </div>
+              </Card>
+            </motion.article>
+          ))}
+        </div>
+
+        {filteredPrompts.length === 0 && (
+          <div className="mt-8 rounded-2xl border border-white/[0.06] bg-surface-2/40 p-8 text-center text-dark-300">
+            No prompts match your current filters.
+          </div>
+        )}
       </PageLayout>
     </>
   );

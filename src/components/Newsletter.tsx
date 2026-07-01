@@ -24,7 +24,7 @@ export default function Newsletter() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
-          className="relative max-w-2xl mx-auto"
+          className="relative max-w-3xl mx-auto"
         >
           {/* Card */}
           <div className="relative rounded-2xl border border-white/[0.06] bg-surface-2/40 p-8 sm:p-12 overflow-hidden">
@@ -40,10 +40,10 @@ export default function Newsletter() {
                 <MailIcon size={22} className="text-brand-400" />
               </div>
 
-              <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
                 Stay ahead of the AI curve
               </h2>
-              <p className="text-[14px] sm:text-[15px] text-dark-200 mb-8 max-w-md mx-auto leading-relaxed">
+              <p className="mt-4 text-lg text-dark-200 leading-relaxed">
                 Get occasional updates about new tool listings, directory changes, and useful AI resources.
               </p>
 
@@ -70,11 +70,11 @@ export default function Newsletter() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
                     required
-                    className="flex-1 bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3.5 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all"
+                    className="flex-1 bg-dark-800/70 border border-white/[0.06] h-14 rounded-2xl px-4 py-3.5 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all"
                   />
                   <button
                     type="submit"
-                    className="btn-primary px-6 py-3.5 rounded-xl text-[14px] font-semibold text-white shrink-0"
+                    className="btn-primary px-6 py-4 rounded-2xl text-[14px] font-semibold text-white shrink-0"
                   >
                     <span className="relative z-10">Subscribe</span>
                   </button>

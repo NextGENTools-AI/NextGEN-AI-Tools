@@ -182,10 +182,10 @@ export default function ContactPage() {
                 <h3 className="text-[15px] font-semibold text-white mb-1">Email Us</h3>
                 <p className="text-[13px] text-dark-300 mb-3">For general inquiries</p>
                 <a
-                  href="mailto:hello@nextgenai.tools"
+                  href="mailto:nextgenaitools.hq@gmail.com"
                   className="text-[14px] font-medium text-brand-400 hover:text-brand-300"
                 >
-                  hello@nextgenai.tools
+                  nextgenaitools.hq@gmail.com
                 </a>
               </div>
 
