@@ -42,7 +42,7 @@ export default function ContactPage() {
         structuredData={breadcrumbSchema}
       />
 
-      <div className="min-h-screen pt-24 pb-20">
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div
@@ -51,7 +51,8 @@ export default function ContactPage() {
             transition={{ duration: 0.5 }}
             className="text-center max-w-2xl mx-auto mb-16"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+            <p className="eyebrow mb-5 justify-center">Contact</p>
+            <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl mb-4">
               Get in Touch
             </h1>
             <p className="text-base sm:text-lg text-dark-200">
@@ -68,7 +69,7 @@ export default function ContactPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="lg:col-span-2"
             >
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 sm:p-8">
+              <div className="rounded-2xl card-surface p-6 sm:p-8">
                 {submitted ? (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-6">
@@ -103,7 +104,7 @@ export default function ContactPage() {
                           required
                           value={formState.name}
                           onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                          className="w-full bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all"
+                          className="field w-full rounded-xl px-4 py-3 text-[14px]"
                           placeholder="John Doe"
                         />
                       </div>
@@ -117,7 +118,7 @@ export default function ContactPage() {
                           required
                           value={formState.email}
                           onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                          className="w-full bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all"
+                          className="field w-full rounded-xl px-4 py-3 text-[14px]"
                           placeholder="john@example.com"
                         />
                       </div>
@@ -131,7 +132,7 @@ export default function ContactPage() {
                         id="reason"
                         value={formState.reason}
                         onChange={(e) => setFormState({ ...formState, reason: e.target.value })}
-                        className="w-full bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all"
+                        className="field w-full cursor-pointer rounded-xl px-4 py-3 text-[14px]"
                       >
                         {contactReasons.map((reason) => (
                           <option key={reason.value} value={reason.value}>
@@ -151,7 +152,7 @@ export default function ContactPage() {
                         rows={5}
                         value={formState.message}
                         onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                        className="w-full bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all resize-none"
+                        className="field w-full resize-none rounded-xl px-4 py-3 text-[14px]"
                         placeholder="Tell us how we can help..."
                       />
                     </div>
@@ -175,7 +176,7 @@ export default function ContactPage() {
               className="space-y-6"
             >
               {/* Email */}
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
+              <div className="rounded-2xl card-surface p-6">
                 <div className="w-10 h-10 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-4">
                   <MailIcon size={20} className="text-brand-400" />
                 </div>
@@ -190,7 +191,7 @@ export default function ContactPage() {
               </div>
 
               {/* Social */}
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
+              <div className="rounded-2xl card-surface p-6">
                 <h3 className="text-[15px] font-semibold text-white mb-4">Follow Us</h3>
                 <div className="flex items-center gap-3">
                   <a
@@ -224,7 +225,7 @@ export default function ContactPage() {
               </div>
 
               {/* FAQ Link */}
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
+              <div className="rounded-2xl card-surface p-6">
                 <h3 className="text-[15px] font-semibold text-white mb-2">Frequently Asked</h3>
                 <ul className="space-y-2 text-[13px]">
                   <li>

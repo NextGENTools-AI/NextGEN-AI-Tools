@@ -56,7 +56,7 @@ export default function AboutPage() {
         structuredData={breadcrumbSchema}
       />
 
-      <div className="min-h-screen pt-24 pb-20">
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Hero */}
           <motion.div
@@ -65,7 +65,8 @@ export default function AboutPage() {
             transition={{ duration: 0.5 }}
             className="text-center max-w-3xl mx-auto mb-20"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
+            <p className="eyebrow mb-5 justify-center">About NextGEN</p>
+            <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl mb-6">
               Helping people explore
               <span className="gradient-text-brand"> AI tools with less noise</span>
             </h1>
@@ -84,7 +85,7 @@ export default function AboutPage() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="text-center p-6 rounded-2xl border border-white/[0.06] bg-surface-2/40"
+                className="card-surface p-6 text-center rounded-2xl"
               >
                 <div className="text-2xl sm:text-3xl font-bold text-white mb-1">{stat.value}</div>
                 <div className="text-[13px] text-dark-300">{stat.label}</div>
@@ -100,7 +101,7 @@ export default function AboutPage() {
             className="mb-20"
           >
             <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-8">Our Story</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white text-center mb-8">Our Story</h2>
               <div className="space-y-4 text-[15px] text-dark-200 leading-relaxed">
                 <p>
                   The AI tools landscape is moving quickly, and it can be hard to compare options from one place. We created this directory to make that process easier.
@@ -122,14 +123,14 @@ export default function AboutPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-20"
           >
-            <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-12">Our Values</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white text-center mb-12">Our Values</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {values.map((value) => {
                 const Icon = value.icon;
                 return (
                   <div
                     key={value.title}
-                    className="p-6 rounded-2xl border border-white/[0.06] bg-surface-2/40"
+                    className="card-surface card-hover p-6 rounded-2xl"
                   >
                     <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-4">
                       <Icon size={24} className="text-brand-400" />
@@ -149,7 +150,7 @@ export default function AboutPage() {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="mb-20"
           >
-            <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-12">Our Team</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white text-center mb-12">Our Team</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
               {team.map((member) => (
                 <div key={member.name} className="text-center">
@@ -170,7 +171,7 @@ export default function AboutPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-center"
           >
-            <div className="max-w-2xl mx-auto p-8 sm:p-12 rounded-2xl border border-white/[0.06] bg-surface-2/40">
+            <div className="card-surface relative overflow-hidden mx-auto max-w-2xl rounded-3xl p-8 sm:p-12">
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
                 Ready to discover your next AI tool?
               </h2>

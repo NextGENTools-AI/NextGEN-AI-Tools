@@ -43,7 +43,7 @@ export default function EditorialPolicyPage() {
             </span>
             <LastUpdated date="2025-01-24T00:00:00Z" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+          <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl mb-4">
             Transparent editorial standards for AI tool discovery
           </h1>
           <p className="text-base text-dark-200 leading-relaxed">

@@ -128,7 +128,7 @@ function ToolMiniCard({
   return (
     <Link
       to={`/tool/${tool.slug}`}
-      className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-surface-2/50 p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
+      className="group relative overflow-hidden rounded-2xl card-surface p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
     >
       <div className="absolute right-4 top-4 rounded-full border border-white/[0.06] bg-white/[0.03] px-2 py-1 text-[11px] font-semibold text-dark-300">
         #{index + 1}
@@ -302,10 +302,13 @@ export default function BestToolsPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
-          className="relative mb-10 overflow-hidden rounded-3xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.20),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 sm:p-8 md:p-10"
+          className="card-surface relative mb-10 overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10"
         >
-          <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-500/20 blur-3xl" />
-          <div className="absolute -bottom-28 left-1/4 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div className="bg-grid-faint absolute inset-0 opacity-50" />
+            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-500/[0.13] blur-3xl" />
+            <div className="absolute -bottom-28 left-1/4 h-72 w-72 rounded-full bg-cyan-500/[0.08] blur-3xl" />
+          </div>
 
           <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_0.8fr] lg:items-center">
             <div>
@@ -799,7 +802,7 @@ export default function BestToolsPage() {
                   <Link
                     key={tool.id}
                     to={`/tool/${tool.slug}`}
-                    className="group rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
+                    className="group rounded-2xl card-surface p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
                   >
                     <div className="mb-4 flex items-start gap-3">
                       <ToolLogo
@@ -898,7 +901,7 @@ export default function BestToolsPage() {
                 <Link
                   key={resource.href}
                   to={resource.href}
-                  className="group rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
+                  className="group rounded-2xl card-surface p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
                 >
                   <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-brand-400">
                     {resource.type}
@@ -941,7 +944,7 @@ export default function BestToolsPage() {
               <Link
                 key={tool.id}
                 to={`/tool/${tool.slug}`}
-                className="group flex items-center gap-4 rounded-2xl border border-white/[0.06] bg-surface-2/40 p-4 transition-all hover:border-brand-500/30 hover:bg-white/[0.04]"
+                className="group flex items-center gap-4 rounded-2xl card-surface p-4 transition-all hover:border-brand-500/30 hover:bg-white/[0.04]"
               >
                 <ToolLogo
                   toolId={tool.id}
@@ -1036,7 +1039,7 @@ export default function BestToolsPage() {
                 <Link
                   key={related.slug}
                   to={`/best/${related.slug}`}
-                  className="group rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
+                  className="group rounded-2xl card-surface p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
                 >
                   <div className="mb-3 inline-flex rounded-full border border-brand-500/20 bg-brand-500/10 px-2.5 py-1 text-[11px] font-semibold text-brand-400">
                     Best AI Tools
@@ -1068,7 +1071,7 @@ export default function BestToolsPage() {
           transition={{ duration: 0.55, delay: 0.55 }}
           className="mb-12"
         >
-          <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 sm:p-8">
+          <div className="card-surface relative overflow-hidden rounded-3xl p-6 sm:p-8">
             <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-brand-500/20 blur-3xl" />
 
             <div className="relative grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-center">

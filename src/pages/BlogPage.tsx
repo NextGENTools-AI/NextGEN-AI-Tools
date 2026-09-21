@@ -154,10 +154,10 @@ function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
       to={`/blog/${article.slug}`}
-      className="group block h-full rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
+      className="card-surface card-hover group block h-full rounded-2xl p-6"
     >
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-brand-500/10 px-2.5 py-1 text-[11px] font-semibold text-brand-400 border border-brand-500/20">
+        <span className="rounded-full bg-brand-500/10 px-2.5 py-1 text-[11px] font-semibold text-brand-300 border border-brand-500/20">
           {article.category}
         </span>
 
@@ -353,17 +353,23 @@ export default function BlogPage() {
         }}
       />
 
-      <div className="min-h-screen pt-24 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32">
+        <div className="pointer-events-none absolute inset-x-0 top-0 overflow-hidden" aria-hidden="true">
+          <div className="aurora left-1/2 top-[-260px] h-[360px] w-[680px] -translate-x-1/2 opacity-[0.07]" style={{ background: 'radial-gradient(closest-side, #2e86ff 0%, transparent 100%)' }} />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Premium Hero */}
           <motion.section
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55 }}
-            className="relative mb-10 overflow-hidden rounded-3xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.20),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 sm:p-8 md:p-10"
+            className="card-surface relative mb-10 overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10"
           >
-            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-500/20 blur-3xl" />
-            <div className="absolute -bottom-28 left-1/4 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
+            <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+              <div className="bg-grid-faint absolute inset-0 opacity-50" />
+              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-500/[0.13] blur-3xl" />
+              <div className="absolute -bottom-28 left-1/4 h-72 w-72 rounded-full bg-cyan-500/[0.08] blur-3xl" />
+            </div>
 
             <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_0.8fr] lg:items-center">
               <div>
@@ -469,7 +475,7 @@ export default function BlogPage() {
             transition={{ duration: 0.55, delay: 0.05 }}
             className="mb-12"
           >
-            <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5">
+            <div className="rounded-2xl card-surface p-5">
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_0.8fr] lg:items-center">
                 <div className="relative">
                   <SearchIcon
@@ -539,7 +545,7 @@ export default function BlogPage() {
 
               <Link
                 to={`/blog/${featuredArticle.slug}`}
-                className="group relative block overflow-hidden rounded-3xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.055),rgba(255,255,255,0.02))] transition-all hover:-translate-y-1 hover:border-brand-500/30"
+                className="card-surface card-hover group relative block overflow-hidden rounded-3xl"
               >
                 <div className="grid grid-cols-1 gap-0 lg:grid-cols-[1.2fr_0.8fr]">
                   <div className="p-7 sm:p-9 lg:p-10">
@@ -673,7 +679,7 @@ export default function BlogPage() {
                     ))}
                   </motion.div>
                 ) : (
-                  <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-8 text-center">
+                  <div className="rounded-2xl card-surface p-8 text-center">
                     <h3 className="text-lg font-semibold text-white">
                       No articles found
                     </h3>
@@ -697,7 +703,7 @@ export default function BlogPage() {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/[0.06] bg-surface-2/40 p-4 sm:flex-row">
+                  <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl card-surface p-4 sm:flex-row">
                     <p className="text-[13px] text-dark-400">
                       Page{' '}
                       <span className="font-semibold text-white">
@@ -778,7 +784,7 @@ export default function BlogPage() {
             {/* Sidebar */}
             <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
               {/* Trending Posts */}
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5">
+              <div className="rounded-2xl card-surface p-5">
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <div>
                     <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-brand-400">
@@ -805,7 +811,7 @@ export default function BlogPage() {
               </div>
 
               {/* Recently Published */}
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5">
+              <div className="rounded-2xl card-surface p-5">
                 <div className="mb-4">
                   <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-brand-400">
                     Fresh
@@ -832,7 +838,7 @@ export default function BlogPage() {
               </div>
 
               {/* Categories */}
-              <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5">
+              <div className="rounded-2xl card-surface p-5">
                 <div className="mb-4">
                   <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-brand-400">
                     Topics
@@ -876,7 +882,7 @@ export default function BlogPage() {
               {/* Newsletter */}
               <div
                 id="newsletter"
-                className="scroll-mt-28 overflow-hidden rounded-2xl border border-brand-500/20 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_35%),rgba(99,102,241,0.06)] p-5"
+                className="card-surface scroll-mt-28 overflow-hidden rounded-2xl p-5"
               >
                 <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-brand-500/20 bg-brand-500/10 text-brand-400">
                   <SparkleIcon size={18} />

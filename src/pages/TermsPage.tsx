@@ -17,7 +17,7 @@ export default function TermsPage() {
         structuredData={breadcrumbSchema}
       />
 
-      <div className="min-h-screen pt-24 pb-20">
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div
@@ -26,7 +26,7 @@ export default function TermsPage() {
             transition={{ duration: 0.5 }}
             className="mb-12"
           >
-            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+            <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl mb-4">
               Terms of Service
             </h1>
             <p className="text-dark-300">

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -53,9 +54,16 @@ function AppContent() {
   }, [i18n, initialLanguage]);
 
   return (
-    <div className="min-h-screen bg-dark-950">
+    <div className="relative min-h-screen bg-dark-950">
       <ScrollToTop />
       <Navbar />
+      {/* Subtle route-change fade — fast, non-blocking */}
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+      >
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/:locale" element={<Navigate to={location.pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'} replace />} />
@@ -110,6 +118,7 @@ function AppContent() {
         {/* Advanced Search */}
         <Route path="/search" element={<SearchPage />} />
       </Routes>
+      </motion.div>
       <Footer />
     </div>
   );

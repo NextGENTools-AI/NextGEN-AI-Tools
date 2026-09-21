@@ -137,7 +137,7 @@ export default function SubmitToolPage() {
                       type="text"
                       value={formState.toolName}
                       onChange={(e) => setFormState({ ...formState, toolName: e.target.value })}
-                      className={`w-full bg-dark-800/70 border rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all ${
+                      className={`field w-full rounded-xl px-4 py-3 text-[14px] ${
                         errors.toolName ? 'border-rose-500/50' : 'border-white/[0.06]'
                       }`}
                       placeholder="e.g., ChatGPT"
@@ -153,7 +153,7 @@ export default function SubmitToolPage() {
                       type="url"
                       value={formState.website}
                       onChange={(e) => setFormState({ ...formState, website: e.target.value })}
-                      className={`w-full bg-dark-800/70 border rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all ${
+                      className={`field w-full rounded-xl px-4 py-3 text-[14px] ${
                         errors.website ? 'border-rose-500/50' : 'border-white/[0.06]'
                       }`}
                       placeholder="https://example.com"
@@ -172,7 +172,7 @@ export default function SubmitToolPage() {
                     maxLength={100}
                     value={formState.tagline}
                     onChange={(e) => setFormState({ ...formState, tagline: e.target.value })}
-                    className={`w-full bg-dark-800/70 border rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all ${
+                    className={`field w-full rounded-xl px-4 py-3 text-[14px] ${
                       errors.tagline ? 'border-rose-500/50' : 'border-white/[0.06]'
                     }`}
                     placeholder="e.g., AI assistant that helps you write better"
@@ -189,7 +189,7 @@ export default function SubmitToolPage() {
                     rows={4}
                     value={formState.description}
                     onChange={(e) => setFormState({ ...formState, description: e.target.value })}
-                    className={`w-full bg-dark-800/70 border rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all resize-none ${
+                    className={`field w-full resize-none rounded-xl px-4 py-3 text-[14px] ${
                       errors.description ? 'border-rose-500/50' : 'border-white/[0.06]'
                     }`}
                     placeholder="Describe what your tool does, its main features, and who it's for..."
@@ -205,7 +205,7 @@ export default function SubmitToolPage() {
                     <select
                       value={formState.category}
                       onChange={(e) => setFormState({ ...formState, category: e.target.value })}
-                      className={`w-full bg-dark-800/70 border rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all ${
+                      className={`field w-full cursor-pointer rounded-xl px-4 py-3 text-[14px] ${
                         errors.category ? 'border-rose-500/50' : 'border-white/[0.06]'
                       }`}
                     >
@@ -224,7 +224,7 @@ export default function SubmitToolPage() {
                     <select
                       value={formState.pricing}
                       onChange={(e) => setFormState({ ...formState, pricing: e.target.value })}
-                      className={`w-full bg-dark-800/70 border rounded-xl px-4 py-3 text-[14px] text-white focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all ${
+                      className={`field w-full cursor-pointer rounded-xl px-4 py-3 text-[14px] ${
                         errors.pricing ? 'border-rose-500/50' : 'border-white/[0.06]'
                       }`}
                     >
@@ -246,7 +246,7 @@ export default function SubmitToolPage() {
                     rows={4}
                     value={formState.features}
                     onChange={(e) => setFormState({ ...formState, features: e.target.value })}
-                    className="w-full bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all resize-none"
+                    className="field w-full resize-none rounded-xl px-4 py-3 text-[14px]"
                     placeholder="AI-powered suggestions&#10;Real-time collaboration&#10;API access"
                   />
                 </div>
@@ -263,7 +263,7 @@ export default function SubmitToolPage() {
                         type="text"
                         value={formState.contactName}
                         onChange={(e) => setFormState({ ...formState, contactName: e.target.value })}
-                        className="w-full bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all"
+                        className="field w-full rounded-xl px-4 py-3 text-[14px]"
                         placeholder="John Doe"
                       />
                     </div>
@@ -276,7 +276,7 @@ export default function SubmitToolPage() {
                         type="email"
                         value={formState.contactEmail}
                         onChange={(e) => setFormState({ ...formState, contactEmail: e.target.value })}
-                        className={`w-full bg-dark-800/70 border rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all ${
+                        className={`field w-full rounded-xl px-4 py-3 text-[14px] ${
                           errors.contactEmail ? 'border-rose-500/50' : 'border-white/[0.06]'
                         }`}
                         placeholder="john@example.com"
@@ -294,7 +294,7 @@ export default function SubmitToolPage() {
                     rows={3}
                     value={formState.additionalInfo}
                     onChange={(e) => setFormState({ ...formState, additionalInfo: e.target.value })}
-                    className="w-full bg-dark-800/70 border border-white/[0.06] rounded-xl px-4 py-3 text-[14px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/40 focus:ring-1 focus:ring-brand-500/20 transition-all resize-none"
+                    className="field w-full resize-none rounded-xl px-4 py-3 text-[14px]"
                     placeholder="Any other details you'd like us to know..."
                   />
                 </div>

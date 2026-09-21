@@ -1,124 +1,277 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ArrowRightIcon, SparkleIcon } from './Icons';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
+import { SparkleIcon, ArrowRightIcon, SendIcon } from './Icons';
 import TrustBadges from './TrustBadges';
+import { cn } from '../utils/cn';
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+/** Example goals shown as one-tap shortcuts. Each routes into the live search. */
+const exampleGoals = [
+  'Write a launch blog post',
+  'Ship code faster',
+  'Design a product logo',
+  'Edit video for social',
+  'Automate my inbox',
+];
+
+const placeholderGoals = [
+  'I want to grow my newsletter…',
+  'I need to build a landing page…',
+  'I want to turn sketches into art…',
+  'I have to summarize research papers…',
+];
+
+/* Cycles through example goals as an animated placeholder. */
+function useTypewriterPlaceholder(enabled: boolean) {
+  const [text, setText] = useState(enabled ? '' : placeholderGoals[0]);
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    let phrase = 0;
+    let char = 0;
+    let deleting = false;
+    let timer: ReturnType<typeof setTimeout>;
+
+    const tick = () => {
+      const current = placeholderGoals[phrase];
+      if (!deleting) {
+        char += 1;
+        setText(current.slice(0, char));
+        if (char === current.length) {
+          deleting = true;
+          timer = setTimeout(tick, 2200);
+          return;
+        }
+      } else {
+        char -= 1;
+        setText(current.slice(0, char));
+        if (char === 0) {
+          deleting = false;
+          phrase = (phrase + 1) % placeholderGoals.length;
+        }
+      }
+      timer = setTimeout(tick, deleting ? 24 : 46);
+    };
+
+    timer = setTimeout(tick, 600);
+    return () => clearTimeout(timer);
+  }, [enabled]);
+
+  return text;
+}
 
 export default function Hero() {
+  const navigate = useNavigate();
+  const [goal, setGoal] = useState('');
+  const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const reduceMotion = useReducedMotion() ?? false;
+  const placeholder = useTypewriterPlaceholder(!reduceMotion && !focused && goal === '');
+
+  const handleSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    const q = goal.trim();
+    navigate(q ? `/search?q=${encodeURIComponent(q)}` : '/search');
+  };
+
+  const handleExample = (example: string) => {
+    setGoal(example);
+    inputRef.current?.focus();
+  };
+
   return (
-    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden noise-bg">
-      {/* Background Effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Large gradient orbs */}
+    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-noise">
+      {/* ---- Ambient background ---- */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="bg-grid absolute inset-0" />
         <div
-          className="absolute top-[-20%] left-[-10%] w-[700px] h-[700px] rounded-full opacity-[0.07]"
+          className="aurora left-1/2 top-[-420px] h-[680px] w-[900px] -translate-x-1/2 opacity-[0.16]"
           style={{
-            background: 'radial-gradient(circle, #6d5cff 0%, transparent 70%)',
-            animation: 'float 8s ease-in-out infinite',
+            background:
+              'radial-gradient(closest-side, rgba(46,134,255,0.75) 0%, rgba(46,134,255,0.18) 55%, transparent 100%)',
+            animation: reduceMotion ? undefined : 'drift 18s ease-in-out infinite',
           }}
         />
         <div
-          className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full opacity-[0.05]"
+          className="aurora right-[-160px] top-[30%] h-[420px] w-[420px] opacity-[0.08]"
           style={{
-            background: 'radial-gradient(circle, #22d3ee 0%, transparent 70%)',
-            animation: 'float 10s ease-in-out infinite 2s',
+            background:
+              'radial-gradient(closest-side, rgba(34,211,238,0.7) 0%, transparent 100%)',
+            animation: reduceMotion ? undefined : 'drift 22s ease-in-out infinite reverse',
           }}
         />
-        {/* Grid pattern */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
+          className="aurora left-[-180px] bottom-[-120px] h-[380px] w-[380px] opacity-[0.06]"
+          style={{ background: 'radial-gradient(closest-side, #5a7bff 0%, transparent 100%)' }}
         />
-        {/* Radial fade overlay */}
+        {/* Horizon glow line */}
         <div
-          className="absolute inset-0"
+          className="absolute left-1/2 top-0 h-px w-[min(900px,90%)] -translate-x-1/2"
           style={{
-            background: 'radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, #04060b 100%)',
+            background:
+              'linear-gradient(90deg, transparent, rgba(90,169,255,0.5), rgba(34,211,238,0.4), transparent)',
           }}
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
-        <div className="text-center max-w-4xl mx-auto">
-          {/* Badge */}
+      {/* ---- Content ---- */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-36 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          {/* Eyebrow */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-brand-500/20 bg-brand-500/[0.08] backdrop-blur-md shadow-lg mb-8"
+            transition={{ duration: 0.6, ease: EASE, delay: 0.05 }}
+            className="mb-7 inline-flex"
           >
-            <SparkleIcon size={16} className="text-brand-400" />
-            <span className="text-[12px] font-medium tracking-wide text-brand-300 uppercase">
-              Curated AI Tool Directory
+            <span className="glass inline-flex items-center gap-2.5 rounded-full px-4 py-1.5">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-400" />
+              </span>
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-dark-100">
+                Your AI goal workspace
+              </span>
             </span>
           </motion.div>
 
-          {/* Heading */}
+          {/* Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.02] mb-8"
+            transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
+            className="text-[42px] font-extrabold leading-[1.04] tracking-[-0.035em] text-white sm:text-6xl lg:text-[76px]"
           >
-            <span className="text-white">Discover the</span>
+            What do you want
             <br />
-            <span className="gradient-text">Next Generation</span>
-            <br />
-            <span className="text-white">of AI Tools</span>
+            to <span className="gradient-text">achieve?</span>
           </motion.h1>
 
-          {/* Subheading */}
+          {/* Supporting copy */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="text-lg sm:text-xl md:text-2xl text-dark-200 max-w-3xl mx-auto mb-10 leading-relaxed font-light"
+            transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
+            className="mx-auto mt-6 max-w-xl text-[16px] leading-relaxed text-dark-200 sm:text-lg"
           >
-            A curated directory of AI tools for writing, coding, image generation, video, and more.
-            Browse by category and compare options without the usual hype.
+            Tell NextGEN your goal. It maps you to the right tools, prompts, and comparisons —
+            so you start doing, not searching.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* ---- Goal console ---- */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-4"
+            transition={{ duration: 0.7, ease: EASE, delay: 0.4 }}
+            className="mx-auto mt-10 max-w-2xl"
           >
-            <Link
-              to="/search"
-              className="btn-primary group flex items-center gap-2.5 px-8 py-4 rounded-xl text-[15px] font-semibold text-white w-full sm:w-auto justify-center shadow-xl hover:shadow-2xl"
+            <form
+              onSubmit={handleSubmit}
+              className={cn(
+                'group relative rounded-2xl transition-all duration-500',
+                focused && 'glow-brand-strong',
+              )}
             >
-              <span className="relative z-10 flex items-center gap-2.5">
-                Browse All Tools
-                <ArrowRightIcon size={18} className="transition-transform group-hover:translate-x-0.5" />
-              </span>
-            </Link>
-            <Link
-              to="/categories"
-              className="flex items-center gap-2 px-8 py-4 rounded-xl text-[15px] font-medium text-dark-100 hover:text-white border border-white/[0.08] hover:border-white/[0.15] bg-white/[0.03] backdrop-blur-md hover:bg-white/[0.04] transition-all duration-200 w-full sm:w-auto justify-center"
-            >
-              View Categories
-            </Link>
+              <div
+                className={cn(
+                  'glass-strong flex items-center gap-3 rounded-2xl p-2 pl-2.5 transition-colors duration-300 sm:gap-4 sm:pl-4',
+                  focused ? 'border-brand-400/40' : 'border-white/[0.08]',
+                )}
+              >
+                <span
+                  className={cn(
+                    'hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 sm:flex',
+                    focused
+                      ? 'border-brand-400/40 bg-brand-500/15 text-brand-300'
+                      : 'border-white/[0.07] bg-white/[0.04] text-dark-300',
+                  )}
+                >
+                  <SparkleIcon size={18} />
+                </span>
+
+                <label htmlFor="hero-goal" className="sr-only">
+                  What do you want to achieve?
+                </label>
+                <input
+                  ref={inputRef}
+                  id="hero-goal"
+                  type="text"
+                  value={goal}
+                  onChange={(e) => setGoal(e.target.value)}
+                  onFocus={() => setFocused(true)}
+                  onBlur={() => setFocused(false)}
+                  placeholder={placeholder ? `Try: ${placeholder}` : 'Try: I want to grow my newsletter…'}
+                  autoComplete="off"
+                  className="min-w-0 flex-1 bg-transparent py-3 text-[15px] text-white placeholder-dark-400 focus:outline-none sm:text-base"
+                />
+
+                <button
+                  type="submit"
+                  className="btn-primary h-11 shrink-0 rounded-xl px-4 text-[13.5px] font-semibold text-white sm:px-6"
+                  aria-label="Find tools for my goal"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="hidden sm:inline">Find my path</span>
+                    <SendIcon size={16} className="sm:hidden" />
+                    <ArrowRightIcon size={16} className="hidden sm:inline" />
+                  </span>
+                </button>
+              </div>
+            </form>
+
+            {/* Example goals */}
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              {exampleGoals.map((example) => (
+                <button
+                  key={example}
+                  type="button"
+                  onClick={() => handleExample(example)}
+                  className="chip"
+                >
+                  {example}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Trust badges row */}
+          {/* Pipeline hint — ties the hero to the workspace idea */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.65 }}
+            className="mt-14 hidden items-center justify-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-dark-400 sm:flex"
+            aria-hidden="true"
+          >
+            {['Goal', 'Understood', 'Plan', 'Tools', 'Result'].map((step, i, arr) => (
+              <span key={step} className="flex items-center gap-3">
+                <span>{step}</span>
+                {i < arr.length - 1 && (
+                  <span className="h-px w-8 bg-gradient-to-r from-dark-500 to-dark-700" />
+                )}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* Trust badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.65 }}
-            className="mt-16"
+            transition={{ duration: 0.7, ease: EASE, delay: 0.75 }}
+            className="mt-10"
           >
             <TrustBadges />
           </motion.div>
         </div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-dark-950 to-transparent" />
+      {/* Bottom fade into the page */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-dark-950 to-transparent"
+        aria-hidden="true"
+      />
     </section>
   );
 }

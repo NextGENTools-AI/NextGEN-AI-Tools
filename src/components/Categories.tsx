@@ -1,117 +1,60 @@
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import {
-  BrainIcon, ImageIcon, CodeIcon, PenIcon, VideoIcon,
-  ChartIcon, BotIcon, ZapIcon, BriefcaseIcon, SearchIcon,
-  ChevronRightIcon, ArrowRightIcon
-} from './Icons';
+import { ArrowRightIcon } from './Icons';
+import CategoryIcon from './CategoryIcon';
 import { categories as dataCategories } from '../data/tools';
-
-const iconMap: Record<string, React.FC<{ size?: number; className?: string }>> = {
-  pen: PenIcon,
-  bot: BotIcon,
-  code: CodeIcon,
-  image: ImageIcon,
-  video: VideoIcon,
-  chart: ChartIcon,
-  zap: ZapIcon,
-  brain: BrainIcon,
-  briefcase: BriefcaseIcon,
-  search: SearchIcon,
-};
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.06 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4 },
-  },
-};
+import { Section, SectionHeader, Reveal } from './ui';
 
 // Show first 8 categories on homepage
 const categories = dataCategories.slice(0, 8);
 
 export default function Categories() {
   return (
-    <section id="categories" className="relative py-20 sm:py-28">
-      {/* Subtle section divider */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-            Browse by Category
-          </h2>
-          <p className="mt-3 text-[15px] text-dark-200 max-w-2xl mx-auto">
-            Explore AI tools organized into categories to find exactly what you need.
-          </p>
-        </motion.div>
-
-        {/* Categories Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
-        >
-          {categories.map((cat) => {
-            const Icon = iconMap[cat.icon] || BrainIcon;
-            return (
-              <motion.div key={cat.slug} variants={cardVariants}>
-                <Link
-                  to={`/category/${cat.slug}`}
-                  className="group card-hover flex items-center gap-4 p-5 rounded-2xl border border-white/[0.06] bg-surface-2/30 hover:bg-surface-2/60 hover:-translate-y-1 transition-all duration-300"
-                >
-                  <div className={`w-12 h-12 rounded-lg ${cat.bgColor} border ${cat.borderColor} flex items-center justify-center shrink-0`}>
-                    <Icon size={22} className={cat.color} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[15px] font-semibold text-white truncate">{cat.name}</h3>
-                    <span className="text-[13px] text-dark-300">{cat.toolCount} tools</span>
-                  </div>
-                  <ChevronRightIcon size={16} className="text-dark-400 group-hover:text-dark-400 group-hover:translate-x-1 transition-all duration-300 shrink-0" />
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-
-        {/* View All Link */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.3 }}
-          className="mt-10 text-center"
-        >
+    <Section id="categories">
+      <SectionHeader
+        eyebrow="Explore the directory"
+        title="Every category, one standard of quality"
+        description="Browse the full landscape by discipline — each category is curated, described in plain language, and kept current."
+        action={
           <Link
             to="/categories"
-            className="groupinline-flex items-center gap-2 text-[15px] font-semibold text-brand-400 hover:text-brand-300 transition-colors"
+            className="btn-secondary group rounded-xl px-5 py-2.5 text-[13.5px] font-semibold text-dark-100 hover:text-white"
           >
-            View all categories
-            <ArrowRightIcon
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
+            <span className="flex items-center gap-2">
+              All categories
+              <ArrowRightIcon size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+            </span>
           </Link>
-        </motion.div>
+        }
+      />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {categories.map((cat, index) => (
+          <Reveal key={cat.slug} delay={index * 50}>
+            <Link
+              to={`/category/${cat.slug}`}
+              className="card-surface card-hover group flex h-full items-center gap-4 rounded-2xl p-5"
+            >
+              <span
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border transition-transform duration-300 group-hover:scale-105 ${cat.bgColor} ${cat.borderColor}`}
+              >
+                <CategoryIcon icon={cat.icon} size={22} className={cat.color} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[14.5px] font-semibold tracking-tight text-white">
+                  {cat.name}
+                </span>
+                <span className="mt-0.5 block font-mono text-[11.5px] uppercase tracking-wider text-dark-400">
+                  {cat.toolCount} tools
+                </span>
+              </span>
+              <ArrowRightIcon
+                size={16}
+                className="shrink-0 -translate-x-1 text-dark-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-brand-300 group-hover:opacity-100"
+              />
+            </Link>
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

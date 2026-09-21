@@ -164,11 +164,13 @@ export default function PromptsPage() {
           transition={{ duration: 0.5 }}
           className="mb-10"
         >
-          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
-            Prompt Library
+          <p className="eyebrow mb-4">Prompt library</p>
+          <h1 className="mb-3 text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl">
+            Prompts that get to work
           </h1>
-          <p className="text-dark-300 max-w-2xl">
-            Find ready-to-use prompts for writing, coding, marketing, design, and research.
+          <p className="max-w-2xl text-dark-300">
+            Ready-to-use prompts for writing, coding, marketing, design, and research — each with
+            variables, tips, and examples.
           </p>
         </motion.div>
 
@@ -176,16 +178,16 @@ export default function PromptsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="mb-8 grid gap-4 lg:grid-cols-[1.4fr_0.8fr_0.8fr]"
+          className="mb-8 grid gap-3.5 lg:grid-cols-[1.4fr_0.8fr_0.8fr]"
         >
           <label className="relative block">
             <span className="sr-only">Search prompts</span>
-            <SearchIcon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400" />
+            <SearchIcon size={17} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-dark-400" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search prompts"
-              className="w-full rounded-2xl border border-white/[0.06] bg-surface-2/40 py-3 pl-11 pr-4 text-sm text-white outline-none ring-0"
+              className="field w-full rounded-xl py-3 pl-11 pr-4 text-sm"
             />
           </label>
 
@@ -194,7 +196,7 @@ export default function PromptsPage() {
             <select
               value={selectedCategory}
               onChange={(event) => setSelectedCategory(event.target.value)}
-              className="w-full rounded-2xl border border-white/[0.06] bg-surface-2/40 px-4 py-3 text-sm text-white outline-none"
+              className="field w-full cursor-pointer rounded-xl px-4 py-3 text-sm"
             >
               <option value="all">All categories</option>
               {promptCategories.map((category) => (
@@ -210,7 +212,7 @@ export default function PromptsPage() {
             <select
               value={selectedDifficulty}
               onChange={(event) => setSelectedDifficulty(event.target.value)}
-              className="w-full rounded-2xl border border-white/[0.06] bg-surface-2/40 px-4 py-3 text-sm text-white outline-none"
+              className="field w-full cursor-pointer rounded-xl px-4 py-3 text-sm"
             >
               <option value="all">All difficulties</option>
               <option value="Beginner">Beginner</option>
@@ -275,8 +277,9 @@ export default function PromptsPage() {
         </div>
 
         {filteredPrompts.length === 0 && (
-          <div className="mt-8 rounded-2xl border border-white/[0.06] bg-surface-2/40 p-8 text-center text-dark-300">
-            No prompts match your current filters.
+          <div className="card-surface mt-8 rounded-2xl p-10 text-center text-dark-300">
+            <p className="text-[15px] font-medium text-white">No prompts match your filters</p>
+            <p className="mt-2 text-[13.5px]">Try a different search term or clear the category filter.</p>
           </div>
         )}
       </PageLayout>
