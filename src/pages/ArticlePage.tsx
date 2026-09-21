@@ -13,7 +13,7 @@ export default function ArticlePage() {
 
   if (!article) {
     return (
-      <div className="min-h-screen pt-24 pb-20 flex items-center justify-center">
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Article Not Found</h1>
           <Link to="/blog" className="text-brand-400 hover:text-brand-300">
@@ -68,7 +68,7 @@ export default function ArticlePage() {
         }}
       />
 
-      <article className="min-h-screen pt-24 pb-20">
+      <article className="relative min-h-screen pb-24 pt-28 sm:pt-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <motion.nav
@@ -109,7 +109,7 @@ export default function ArticlePage() {
               <span className="text-[13px] text-dark-400">{article.readTime}</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-[42px] font-bold text-white tracking-tight leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-[44px] font-extrabold tracking-[-0.03em] text-white leading-[1.12] mb-6">
               {article.title}
             </h1>
 
@@ -304,7 +304,7 @@ export default function ArticlePage() {
                   <Link
                     key={tool.id}
                     to={`/tool/${tool.slug}`}
-                    className="flex items-center gap-3 p-4 rounded-xl border border-white/[0.06] bg-surface-2/40 hover:bg-surface-2/60 transition-colors"
+                    className="flex items-center gap-3 p-4 rounded-xl card-surface hover:bg-surface-2/60 transition-colors"
                   >
                     <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${tool.gradient} flex items-center justify-center text-[13px] font-bold text-white border border-white/[0.06]`}>
                       {tool.logo}
@@ -332,7 +332,7 @@ export default function ArticlePage() {
                   <Link
                     key={related.id}
                     to={`/blog/${related.slug}`}
-                    className="group block rounded-xl border border-white/[0.06] bg-surface-2/40 p-5 hover:bg-surface-2/60 transition-colors"
+                    className="group block rounded-xl card-surface p-5 hover:bg-surface-2/60 transition-colors"
                   >
                     <span className="text-[11px] font-medium text-brand-400 uppercase tracking-wide">
                       {related.category}

@@ -25,7 +25,7 @@ export default function ScreenshotGallery({ screenshots = [], altPrefix = 'Tool 
           <ImageIcon size={20} className="text-brand-400" />
           {title}
         </h2>
-        <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
+        <div className="card-surface rounded-2xl p-6">
           <div className="flex aspect-video items-center justify-center rounded-xl border border-dashed border-white/[0.08] bg-dark-900/50">
             <div className="text-center">
               <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-500/10 text-brand-400">
@@ -53,7 +53,7 @@ export default function ScreenshotGallery({ screenshots = [], altPrefix = 'Tool 
           }
 
           return (
-            <div key={`${screenshot.alt}-${index}`} className="group overflow-hidden rounded-2xl border border-white/[0.06] bg-surface-2/50">
+            <div key={`${screenshot.alt}-${index}`} className="group overflow-hidden rounded-2xl card-surface ">
               <div className={`relative aspect-video bg-gradient-to-br ${screenshot.gradient}`}>
                 <div className="absolute inset-x-0 top-0 flex h-7 items-center gap-1.5 bg-black/30 px-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
@@ -86,7 +86,7 @@ function ScreenshotCard({ src, alt }: { src: string; alt: string }) {
 
   if (hasError) {
     return (
-      <div className="overflow-hidden rounded-2xl border border-white/[0.06] bg-surface-2/40">
+      <div className="overflow-hidden rounded-2xl card-surface ">
         <div className="flex aspect-video items-center justify-center bg-dark-900/50 p-6 text-center">
           <div>
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-500/10 text-brand-400">
@@ -100,7 +100,7 @@ function ScreenshotCard({ src, alt }: { src: string; alt: string }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/[0.06] bg-surface-2/40">
+    <div className="overflow-hidden rounded-2xl card-surface ">
       <img
         src={src}
         alt={alt}

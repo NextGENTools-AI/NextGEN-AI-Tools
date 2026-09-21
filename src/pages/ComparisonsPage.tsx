@@ -25,6 +25,7 @@ export default function ComparisonsPage() {
 
       <PageLayout>
         <PageHeader
+          badge="Head-to-head"
           title="AI Tool Comparisons"
           description="Side-by-side overviews of popular AI tools, including pricing notes, feature differences, and simple takeaways."
         />
@@ -39,7 +40,7 @@ export default function ComparisonsPage() {
             >
               <Link
                 to={`/compare/${comp.slug}`}
-                className="group card-hover block rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 hover:bg-surface-2/60"
+                className="card-surface card-hover group block rounded-2xl p-6"
               >
                 {/* Tools */}
                 <div className="flex items-center justify-center gap-4 mb-5">
@@ -69,7 +70,7 @@ export default function ComparisonsPage() {
                 <div className="text-center mb-4">
                   <span className={`inline-flex items-center px-3 py-1 text-[11px] font-semibold rounded-full ${
                     comp.winner === 'tie' 
-                      ? 'bg-brand-500/10 text-brand-400 border border-brand-500/20'
+                      ? 'bg-brand-500/10 text-brand-300 border border-brand-500/20'
                       : comp.winner === 'A'
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                       : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'

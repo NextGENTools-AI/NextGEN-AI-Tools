@@ -29,7 +29,7 @@ export default function LanguageSwitcher() {
         id="language-switcher"
         value={currentLanguage}
         onChange={(event) => handleLanguageChange(event.target.value as SupportedLanguageCode)}
-        className="rounded-lg border border-white/[0.08] bg-dark-900/80 px-3 py-2 text-[13px] font-medium text-dark-100 outline-none transition hover:border-brand-400/40 hover:text-white"
+        className="field cursor-pointer rounded-lg px-3 py-2 text-[13px] font-medium text-dark-100"
       >
         {options.map((language) => (
           <option key={language.code} value={language.code}>

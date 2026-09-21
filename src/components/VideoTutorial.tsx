@@ -18,7 +18,7 @@ export default function VideoTutorial({ youtubeId, title, description, duration,
 
   return (
     <section className={`mb-8 ${className}`}>
-      <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6">
+      <div className="card-surface rounded-2xl p-6">
         <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-white">
           <VideoIcon size={20} className="text-brand-400" />
           Video Tutorial

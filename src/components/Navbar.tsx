@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LogoIcon, MenuIcon, CloseIcon } from './Icons';
+import { LogoIcon, MenuIcon, CloseIcon, ArrowRightIcon } from './Icons';
 import LanguageSwitcher from './LanguageSwitcher';
+import { cn } from '../utils/cn';
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function Navbar() {
   const { t } = useTranslation();
@@ -19,17 +22,17 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => {
       document.body.style.overflow = '';
-    }
+    };
   }, [mobileOpen]);
 
   // Close mobile menu on route change
@@ -37,118 +40,190 @@ export default function Navbar() {
     setMobileOpen(false);
   }, [location.pathname]);
 
+  // Escape closes the mobile menu
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileOpen]);
+
+  const isActive = useCallback(
+    (href: string) => location.pathname === href || location.pathname.startsWith(`${href}/`),
+    [location.pathname],
+  );
+
   return (
     <>
-      <motion.nav
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'glass-strong shadow-2xl shadow-black/30 border-b border-white/[0.05]'
-            : 'bg-transparent'
-        }`}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18 lg:h-20">
+        Skip to content
+      </a>
+
+      <motion.header
+        initial={{ y: -24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: EASE }}
+        className={cn(
+          'fixed inset-x-0 top-0 z-50 transition-all duration-500',
+          scrolled
+            ? 'glass-strong shadow-[0_8px_32px_-12px_rgba(0,0,0,0.6)] border-b border-white/[0.06]'
+            : 'border-b border-transparent bg-transparent',
+        )}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between lg:h-[72px]">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group transition-all duration-300 hover:scale-105">
-              <LogoIcon size={34} />
-              <span className="text-[17px] font-semibold tracking-tight text-white">
+            <Link to="/" className="group flex items-center gap-2.5" aria-label="NextGEN AI Tools — Home">
+              <span className="transition-transform duration-300 group-hover:scale-105">
+                <LogoIcon size={32} />
+              </span>
+              <span className="text-[16.5px] font-bold tracking-tight text-white">
                 NextGEN
-                <span className="text-brand-400 ml-0.5">AI</span>
+                <span className="font-semibold gradient-text-brand"> AI</span>
               </span>
             </Link>
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className={`px-5 py-2.5 text-[14px] font-medium transition-colors duration-200 rounded-lg hover:bg-white/[0.04 hover:-translate-y-0.5] ${
-                    location.pathname === link.href
-                      ? 'bg-white/[0.05] text-white'
-                      : 'text-dark-100 hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+            {/* Desktop nav */}
+            <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary">
+              {navLinks.map((link) => {
+                const active = isActive(link.href);
+                return (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    aria-current={active ? 'page' : undefined}
+                    className={cn(
+                      'relative rounded-lg px-4 py-2 text-[13.5px] font-medium transition-colors duration-200',
+                      active ? 'text-white' : 'text-dark-200 hover:text-white',
+                    )}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="nav-active"
+                        transition={{ duration: 0.4, ease: EASE }}
+                        className="absolute inset-0 rounded-lg border border-white/[0.07] bg-white/[0.05]"
+                      />
+                    )}
+                    <span className="relative">{link.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
 
-            {/* Desktop CTA */}
-            <div className="hidden md:flex items-center gap-3">
+            {/* Desktop actions */}
+            <div className="hidden items-center gap-2.5 md:flex">
+              <Link
+                to="/search"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03] text-dark-200 transition-all duration-200 hover:border-white/[0.16] hover:text-white"
+                aria-label="Search AI tools"
+                title="Search"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21L16.65 16.65" />
+                </svg>
+              </Link>
               <LanguageSwitcher />
               <Link
                 to="/tool-finder"
-                className="px-5 py-2.5 text-[13px] font-medium text-dark-100 hover:text-white transition-colors duration-200 rounded-xl hover:bg-white/[0.04 hover:scale-[1.03]"
+                className="btn-secondary rounded-lg px-4 py-2 text-[13px] font-semibold text-dark-100 hover:text-white"
               >
                 {t('nav.toolFinder')}
               </Link>
               <Link
                 to="/submit"
-                className="btn-primary px-6 py-2.5 rounded-lg text-[13px] font-semibold text-white"
+                className="btn-primary rounded-lg px-4.5 py-2 text-[13px] font-semibold text-white"
               >
-                <span className="relative z-10">{t('nav.submitTool')}</span>
+                <span>{t('nav.submitTool')}</span>
               </Link>
             </div>
 
             {/* Mobile menu button */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-x1 text-dark-200 hover:text-white hover:bg-white/[0.05] transition-colors"
-              aria-label="Toggle menu"
+              type="button"
+              onClick={() => setMobileOpen((open) => !open)}
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03] text-dark-100 transition-colors hover:text-white md:hidden"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
+              {mobileOpen ? <CloseIcon size={20} /> : <MenuIcon size={20} />}
             </button>
           </div>
         </div>
-      </motion.nav>
+      </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25 }}
             className="fixed inset-0 z-40 md:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
           >
-            <div className="absolute inset-0 bg-dark-950/90 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="absolute right-0 top-0 bottom-0 w-[320px] bg-dark-900 border-l border-white/[0.06] p-8 pt-20"
+            <div
+              className="absolute inset-0 bg-dark-950/92 backdrop-blur-xl"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.nav
+              initial={{ y: 16, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 16, opacity: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              className="absolute inset-x-3 top-[72px] overflow-hidden rounded-2xl border border-white/[0.08] bg-dark-900/95 p-3 shadow-2xl shadow-black/60"
+              aria-label="Mobile"
             >
-              <div className="flex flex-col gap-1">
-                {navLinks.map((link) => (
-                  <Link
+              <ul className="flex flex-col">
+                {navLinks.map((link, index) => (
+                  <motion.li
                     key={link.label}
-                    to={link.href}
-                    className={`px-4 py-3 text-[15px] font-medium transition-colors rounded-x1 hover:bg-white/[0.04] ${
-                      location.pathname === link.href
-                        ? 'text-white'
-                        : 'text-dark-100 hover:text-white'
-                    }`}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 + index * 0.045, duration: 0.3, ease: EASE }}
                   >
-                    {link.label}
-                  </Link>
+                    <Link
+                      to={link.href}
+                      className={cn(
+                        'flex items-center justify-between rounded-xl px-4 py-3.5 text-[15px] font-medium transition-colors',
+                        isActive(link.href)
+                          ? 'bg-white/[0.06] text-white'
+                          : 'text-dark-200 hover:bg-white/[0.04] hover:text-white',
+                      )}
+                    >
+                      {link.label}
+                      <ArrowRightIcon size={15} className="text-dark-400" />
+                    </Link>
+                  </motion.li>
                 ))}
-                <div className="mt-4 pt-4 border-t border-white/[0.06] space-y-3">
+              </ul>
+
+              <div className="mt-3 space-y-3 border-t border-white/[0.06] p-3">
+                <div className="flex items-center justify-between gap-3">
                   <LanguageSwitcher />
                   <Link
-                    to="/categories"
-                    className="btn-primary block text-center px-6 py-3.5 rounded-x1 text-[14px] font-semibold text-white"
+                    to="/search"
+                    className="text-[13px] font-medium text-dark-200 transition-colors hover:text-white"
                   >
-                    <span className="relative z-10">{t('nav.exploreTools')}</span>
+                    Search tools
                   </Link>
                 </div>
+                <Link
+                  to="/submit"
+                  className="btn-primary block w-full rounded-xl px-6 py-3 text-[14px] font-semibold text-white"
+                >
+                  <span>{t('nav.submitTool')}</span>
+                </Link>
               </div>
-            </motion.div>
+            </motion.nav>
           </motion.div>
         )}
       </AnimatePresence>

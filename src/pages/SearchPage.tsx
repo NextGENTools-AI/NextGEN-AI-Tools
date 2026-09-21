@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import PageLayout from '../components/layouts/PageLayout';
 import { tools, categories } from '../data/tools';
-import { ToolLogo } from '../components/ToolLogos';
+import ToolCard from '../components/ToolCard';
 import { SearchIcon, ArrowRightIcon, GridIcon } from '../components/Icons';
 
 type SortOption = 'rating' | 'name' | 'reviews';
@@ -14,6 +14,9 @@ const popularSearches = [
   'ChatGPT', 'Claude', 'Midjourney', 'Cursor', 'Grammarly',
   'Writing', 'Coding', 'Image', 'Video', 'Productivity',
 ];
+
+const selectClass =
+  'field rounded-xl px-3.5 py-2.5 text-[13px] font-medium text-white cursor-pointer hover:border-white/[0.14]';
 
 export default function SearchPage() {
   const [query, setQuery] = useState('');
@@ -62,37 +65,65 @@ export default function SearchPage() {
     <>
       <SEO
         title="Search AI Tools — Find the Perfect AI Solution"
-        description="Search and filter 50+ AI tools by category, pricing, and rating. Find the perfect AI tool for writing, coding, design, marketing, and more."
+        description="Search and filter the full AI tool directory by category, pricing, and rating. Find the perfect AI tool for writing, coding, design, marketing, and more."
         canonical="/search"
       />
 
       <PageLayout>
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center mb-14">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-5">Search AI Tools</h1>
-          <p className="text-dark-300 text-lg max-w-2xl mx-auto leading-relaxed">Find the perfect AI tool from our directory. Filter by category, pricing, and more.</p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mx-auto mb-12 max-w-2xl text-center"
+        >
+          <p className="eyebrow mb-4 justify-center">Search the directory</p>
+          <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl">
+            Find the right tool
+          </h1>
+          <p className="mt-4 text-lg leading-relaxed text-dark-300">
+            Search the full catalog and narrow by category, pricing, and rating.
+          </p>
         </motion.div>
 
-        {/* Search + Filters Bar */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="mb-8 space-y-4">
+        {/* Search + Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-8 space-y-5"
+        >
           {/* Search Input */}
-          <div className="relative max-w-3xl mx-auto">
-            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400" size={20} />
+          <div className="relative mx-auto max-w-3xl">
+            <SearchIcon
+              className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-dark-400"
+              size={19}
+            />
+            <label htmlFor="search-page-input" className="sr-only">
+              Search tools by name, category, or description
+            </label>
             <input
+              id="search-page-input"
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search tools by name, category, or description..."
-              className="w-full bg-dark-800/80 border border-white/[0.06] rounded-2xl pl-12 pr-4 py-5 text-[15px] text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all"
+              placeholder="Search tools by name, category, or description…"
+              className="field w-full rounded-2xl py-4 pl-13 pr-4 text-[15px]"
             />
           </div>
 
           {/* Popular Searches */}
           {!hasFilters && (
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <span className="text-[13px] text-dark-400 mr-1">Popular:</span>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <span className="mr-1 font-mono text-[11px] uppercase tracking-wider text-dark-400">
+                Popular
+              </span>
               {popularSearches.map(s => (
-                <button key={s} onClick={() => setQuery(s)} className="px-4 py-2 text-[13px] transition-colors font-medium text-dark-200 hover:text-white rounded-lg border border-white/[0.05] hover:border-white/[0.12] bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+                <button
+                  key={s}
+                  onClick={() => setQuery(s)}
+                  className="chip normal-case tracking-normal"
+                >
                   {s}
                 </button>
               ))}
@@ -100,12 +131,13 @@ export default function SearchPage() {
           )}
 
           {/* Filter Controls */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            {/* Category */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            <label className="sr-only" htmlFor="filter-category">Category</label>
             <select
+              id="filter-category"
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-dark-800/60 border border-white/[0.06] rounded-lg px-3 py-2 text-[13px] text-white focus:outline-none focus:border-brand-500/40"
+              className={selectClass}
             >
               <option value="">All Categories</option>
               {categories.map(c => (
@@ -113,11 +145,12 @@ export default function SearchPage() {
               ))}
             </select>
 
-            {/* Pricing */}
+            <label className="sr-only" htmlFor="filter-pricing">Pricing</label>
             <select
+              id="filter-pricing"
               value={pricingFilter}
               onChange={(e) => setPricingFilter(e.target.value as PricingFilter)}
-              className="bg-dark-800/80 border border-white/[0.06] rounded-xl px-3 py-2 text-[13px] text-white focus:outline-none focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20"
+              className={selectClass}
             >
               <option value="">All Pricing</option>
               <option value="Free">Free</option>
@@ -126,11 +159,12 @@ export default function SearchPage() {
               <option value="Enterprise">Enterprise</option>
             </select>
 
-            {/* Sort */}
+            <label className="sr-only" htmlFor="filter-sort">Sort</label>
             <select
+              id="filter-sort"
               value={sort}
               onChange={(e) => setSort(e.target.value as SortOption)}
-              className="bg-dark-800/80 border border-white/[0.06] rounded-xl px-3 py-2 text-[13px] text-white focus:outline-none focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20"
+              className={selectClass}
             >
               <option value="rating">Sort: Highest Rated</option>
               <option value="name">Sort: A-Z</option>
@@ -140,7 +174,7 @@ export default function SearchPage() {
             {hasFilters && (
               <button
                 onClick={() => { setQuery(''); setCategoryFilter(''); setPricingFilter(''); }}
-                className="text-[13px] font-medium text-brand-400 hover:text-brand-300 transition-colors"
+                className="rounded-lg px-3 py-2 text-[13px] font-semibold text-brand-300 transition-colors hover:text-brand-200"
               >
                 Clear all
               </button>
@@ -149,15 +183,15 @@ export default function SearchPage() {
         </motion.div>
 
         {/* Results count */}
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-[14px] text-dark-400">
+        <div className="mb-6 flex items-center justify-between">
+          <p className="font-mono text-[11.5px] uppercase tracking-[0.18em] text-dark-400" role="status">
             {filtered.length} tool{filtered.length !== 1 ? 's' : ''} found
           </p>
         </div>
 
         {/* Results Grid */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {filtered.map((tool, index) => (
               <motion.div
                 key={tool.id}
@@ -165,50 +199,44 @@ export default function SearchPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: Math.min(index * 0.03, 0.3) }}
               >
-                <Link to={`/tool/${tool.slug}`} className="group card-hover block h-full rounded-2xl border border-white/[0.06] bg-surface-2/50 p-6">
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="w-11 h-11 rounded-xl bg-dark-800 flex items-center justify-center shrink-0 border border-white/[0.06] overflow-hidden">
-                      <ToolLogo toolId={tool.id} size={28} fallbackLetter={tool.logo} fallbackGradient={tool.gradient} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-semibold text-white truncate group-hover:text-brand-400 transition-colors">{tool.name}</h3>
-                      <span className="text-[12px] text-dark-400">{tool.category}</span>
-                    </div>
-                  </div>
-                  <p className="text-[13px] text-dark-300 mb-3 line-clamp-2">{tool.tagline}</p>
-                  <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
-                    <span className="text-[12px] text-dark-400">Open listing</span>
-                    <span className={`text-[11px] font-semibold px-3 py-1 rounded-md uppercase ${
-                      tool.pricing === 'Free' || tool.pricing === 'Freemium'
-                        ? 'bg-emerald-500/10 text-emerald-400'
-                        : tool.pricing === 'Paid'
-                        ? 'bg-amber-500/10 text-amber-400'
-                        : 'bg-purple-500/10 text-purple-400'
-                    }`}>{tool.pricing}</span>
-                  </div>
-                </Link>
+                <ToolCard tool={tool} />
               </motion.div>
             ))}
           </div>
         ) : (
           /* Empty State */
-          <div className="text-center py-28">
-            <div className="w-20 h-20 rounded-2xl bg-dark-800 border border-white/[0.06] flex items-center justify-center mx-auto mb-6">
-              <GridIcon size={34} className="text-dark-400" />
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="py-24 text-center"
+          >
+            <div className="card-surface mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl">
+              <GridIcon size={32} className="text-dark-400" />
             </div>
-            <h2 className="text-xl font-semibold text-white mb-2">No tools found</h2>
-            <p className="text-dark-300 mb-6 max-w-md mx-auto">Try adjusting your search or filters. Here are some popular tools you might like:</p>
-            <div className="flex flex-wrap justify-center gap-2 mb-6">
+            <h2 className="mb-2 text-xl font-semibold text-white">No tools found</h2>
+            <p className="mx-auto mb-6 max-w-md text-[14px] leading-relaxed text-dark-300">
+              Try adjusting your search or filters. Here are some popular tools you might like:
+            </p>
+            <div className="mb-8 flex flex-wrap justify-center gap-2">
               {['ChatGPT', 'Claude', 'Midjourney', 'Cursor'].map(s => (
-                <button key={s} onClick={() => { setQuery(s); setCategoryFilter(''); setPricingFilter(''); }} className="px-4 py-2 text-[13px] font-medium text-brand-400 rounded-lg border border-brand-500/20 bg-brand-500/5 hover:bg-brand-500/15 transition-all">
+                <button
+                  key={s}
+                  onClick={() => { setQuery(s); setCategoryFilter(''); setPricingFilter(''); }}
+                  className="chip normal-case tracking-normal !border-brand-500/25 !bg-brand-500/[0.08] !text-brand-300"
+                >
                   {s}
                 </button>
               ))}
             </div>
-            <Link to="/categories" className="inline-flex items-center gap-2 text-[15px] font-medium text-brand-400 hover:text-brand-300">
-              Browse all categories<ArrowRightIcon size={14} />
+            <Link
+              to="/categories"
+              className="inline-flex items-center gap-2 text-[15px] font-semibold text-brand-300 transition-colors hover:text-brand-200"
+            >
+              Browse all categories
+              <ArrowRightIcon size={15} />
             </Link>
-          </div>
+          </motion.div>
         )}
       </PageLayout>
     </>

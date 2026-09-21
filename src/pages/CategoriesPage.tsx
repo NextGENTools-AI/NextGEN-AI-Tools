@@ -2,38 +2,22 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO, { generateBreadcrumbSchema } from '../components/SEO';
 import { categories } from '../data/tools';
-import {
-  PenIcon, BotIcon, CodeIcon, ImageIcon, VideoIcon,
-  ChartIcon, ZapIcon, BrainIcon, BriefcaseIcon, SearchIcon,
-  ArrowRightIcon
-} from '../components/Icons';
-
-const iconMap: Record<string, React.FC<{ size?: number; className?: string }>> = {
-  pen: PenIcon,
-  bot: BotIcon,
-  code: CodeIcon,
-  image: ImageIcon,
-  video: VideoIcon,
-  chart: ChartIcon,
-  zap: ZapIcon,
-  brain: BrainIcon,
-  briefcase: BriefcaseIcon,
-  search: SearchIcon,
-};
+import CategoryIcon from '../components/CategoryIcon';
+import { ArrowRightIcon } from '../components/Icons';
 
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.06 },
+    transition: { staggerChildren: 0.05 },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 22 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4 },
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
@@ -46,73 +30,81 @@ export default function CategoriesPage() {
   return (
     <>
       <SEO
-        title="AI Tools Categories — Browse All 10 Categories"
+        title="AI Tools Categories — Browse All Categories"
         description="Explore AI tools by category. Browse AI Writing, Chatbots, Coding, Image Generation, Video, Marketing, Productivity, Education, Business, and Research tools."
         canonical="/categories"
         keywords="AI tool categories, AI writing tools, AI chatbots, AI coding tools, AI image generators, AI video tools"
         structuredData={breadcrumbSchema}
       />
-      <div className="min-h-screen pt-24 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
-            Browse by Category
-          </h1>
-          <p className="text-base sm:text-lg text-dark-200 max-w-2xl mx-auto">
-            Explore our comprehensive collection of AI tools organized into categories to help you find exactly what you need.
-          </p>
-        </motion.div>
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32">
+        {/* Ambient page light */}
+        <div
+          className="aurora left-1/2 top-[-260px] h-[360px] w-[680px] -translate-x-1/2 opacity-[0.07]"
+          style={{ background: 'radial-gradient(closest-side, #2e86ff 0%, transparent 100%)' }}
+          aria-hidden="true"
+        />
 
-        {/* Categories Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {categories.map((category) => {
-            const Icon = iconMap[category.icon] || BrainIcon;
-            return (
+        <main id="main-content" className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <motion.header
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="mx-auto mb-14 max-w-2xl text-center sm:mb-16"
+          >
+            <p className="eyebrow mb-4 justify-center">The directory</p>
+            <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl">
+              Browse by category
+            </h1>
+            <p className="mt-4 text-lg leading-relaxed text-dark-300">
+              A curated map of the AI landscape — organized by discipline so you can go straight
+              to what you need.
+            </p>
+          </motion.header>
+
+          {/* Categories Grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {categories.map((category) => (
               <motion.div key={category.slug} variants={cardVariants}>
                 <Link
                   to={`/category/${category.slug}`}
-                  className="group card-hover block h-full rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 hover:bg-surface-2/60"
+                  className="card-surface card-hover group block h-full rounded-2xl p-6"
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl ${category.bgColor} border ${category.borderColor} flex items-center justify-center shrink-0`}>
-                      <Icon size={24} className={category.color} />
+                    <div
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${category.bgColor} ${category.borderColor}`}
+                    >
+                      <CategoryIcon icon={category.icon} size={23} className={category.color} />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h2 className="text-lg font-semibold text-white mb-1 group-hover:text-brand-400 transition-colors">
+                    <div className="min-w-0 flex-1">
+                      <h2 className="mb-1 text-[17px] font-semibold tracking-tight text-white transition-colors group-hover:text-brand-300">
                         {category.name}
                       </h2>
-                      <p className="text-[13px] text-dark-300 leading-relaxed line-clamp-2 mb-3">
+                      <p className="mb-4 line-clamp-2 text-[13px] leading-relaxed text-dark-300">
                         {category.description}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-[12px] font-medium text-dark-400">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dark-400">
                           {category.toolCount} tools
                         </span>
-                        <span className="flex items-center gap-1 text-[12px] font-medium text-brand-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="flex items-center gap-1.5 text-[12px] font-semibold text-brand-300 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 sm:-translate-x-1">
                           Explore
-                          <ArrowRightIcon size={14} />
+                          <ArrowRightIcon size={13} />
                         </span>
                       </div>
                     </div>
                   </div>
                 </Link>
               </motion.div>
-            );
-          })}
-        </motion.div>
+            ))}
+          </motion.div>
+        </main>
       </div>
-    </div>
     </>
   );
 }

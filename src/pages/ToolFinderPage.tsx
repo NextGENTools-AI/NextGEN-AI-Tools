@@ -575,22 +575,24 @@ export default function ToolFinderPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
-              className="relative mb-10 overflow-hidden rounded-3xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.20),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 text-center sm:p-8 md:p-10"
+              className="card-surface relative mb-10 overflow-hidden rounded-3xl p-6 text-center sm:p-8 md:p-10"
             >
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-500/20 blur-3xl" />
-              <div className="absolute -bottom-28 left-1/4 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
+              <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+                <div className="bg-grid-faint absolute inset-0 opacity-60" />
+                <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-500/[0.14] blur-3xl" />
+                <div className="absolute -bottom-28 left-1/4 h-72 w-72 rounded-full bg-cyan-500/[0.08] blur-3xl" />
+              </div>
 
               <div className="relative mx-auto max-w-3xl">
-                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-brand-500/20 bg-brand-500/10">
-                  <SparkleIcon size={28} className="text-brand-400" />
+                <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-500/25 bg-brand-500/10 shadow-[0_0_36px_-8px_rgba(46,134,255,0.5)]">
+                  <SparkleIcon size={26} className="text-brand-300" />
                 </div>
 
-                <span className="mb-4 inline-flex rounded-full border border-brand-500/20 bg-brand-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-400">
-                  Personalized AI Tool Quiz
-                </span>
+                <p className="eyebrow mb-4 justify-center">Guided matching</p>
 
-                <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-                  Find your perfect AI tool in under 60 seconds
+                <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-white sm:text-4xl md:text-[44px] md:leading-[1.1]">
+                  Find your perfect AI tool
+                  <br className="hidden sm:block" /> in under 60 seconds
                 </h1>
 
                 <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-dark-200 sm:text-lg">
@@ -602,19 +604,26 @@ export default function ToolFinderPage() {
 
             {/* Progress */}
             <div className="mx-auto mb-8 max-w-3xl">
-              <div className="mb-2 flex items-center justify-between text-[13px] text-dark-400">
+              <div className="mb-2.5 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-dark-400">
                 <span>
-                  Question {step + 1} of {questions.length}
+                  Step {step + 1} / {questions.length}
                 </span>
-                <span>{Math.round(progress)}% complete</span>
+                <span>{Math.round(progress)}%</span>
               </div>
 
-              <div className="h-2 overflow-hidden rounded-full bg-dark-800">
+              <div
+                className="h-1.5 overflow-hidden rounded-full bg-dark-800"
+                role="progressbar"
+                aria-valuenow={Math.round(progress)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Quiz progress"
+              >
                 <motion.div
-                  className="h-full bg-gradient-to-r from-brand-500 to-cyan-500"
+                  className="h-full rounded-full bg-gradient-to-r from-brand-500 to-cyan-400"
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
             </div>
@@ -645,16 +654,16 @@ export default function ToolFinderPage() {
                       key={option.value}
                       type="button"
                       onClick={() => handleAnswer(option.value)}
-                      className="group flex items-start gap-4 rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 text-left transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
+                      className="card-surface card-hover group flex items-start gap-4 rounded-2xl p-5 text-left"
                     >
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-brand-500/20 bg-brand-500/10">
-                        <span className="text-[14px] font-bold text-brand-400">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-brand-500/20 bg-brand-500/[0.08] transition-colors duration-300 group-hover:border-brand-400/40 group-hover:bg-brand-500/[0.14]">
+                        <span className="font-mono text-[13px] font-semibold text-brand-300">
                           {option.label.charAt(0)}
                         </span>
                       </div>
 
                       <div>
-                        <span className="block text-[15px] font-semibold text-white transition-colors group-hover:text-brand-400">
+                        <span className="block text-[15px] font-semibold text-white transition-colors group-hover:text-brand-300">
                           {option.label}
                         </span>
 
@@ -688,19 +697,20 @@ export default function ToolFinderPage() {
             transition={{ duration: 0.55 }}
           >
             {/* Results Hero */}
-            <section className="relative mb-10 overflow-hidden rounded-3xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.16),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 text-center sm:p-8 md:p-10">
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
+            <section className="card-surface relative mb-10 overflow-hidden rounded-3xl p-6 text-center sm:p-8 md:p-10">
+              <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+                <div className="bg-grid-faint absolute inset-0 opacity-50" />
+                <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-500/[0.09] blur-3xl" />
+              </div>
 
               <div className="relative mx-auto max-w-3xl">
-                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-emerald-500/20 bg-emerald-500/10">
-                  <CheckIcon size={28} className="text-emerald-400" />
+                <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/25 bg-emerald-500/10">
+                  <CheckIcon size={26} className="text-emerald-400" />
                 </div>
 
-                <span className="mb-4 inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-400">
-                  Personalized Results
-                </span>
+                <p className="eyebrow mb-4 justify-center text-emerald-400">Personalized results</p>
 
-                <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-white sm:text-4xl">
                   Your recommended AI tools
                 </h1>
 
@@ -715,7 +725,7 @@ export default function ToolFinderPage() {
             </section>
 
             {/* Filters */}
-            <section className="mb-8 rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5">
+            <section className="mb-8 rounded-2xl card-surface p-5">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
                 <div>
                   <label className="mb-2 block text-[12px] font-semibold uppercase tracking-wide text-dark-300">
@@ -813,7 +823,7 @@ export default function ToolFinderPage() {
                   ))}
                 </div>
               ) : (
-                <div className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-8 text-center">
+                <div className="rounded-2xl card-surface p-8 text-center">
                   <h3 className="text-lg font-semibold text-white">
                     No tools match these filters
                   </h3>
@@ -859,7 +869,7 @@ export default function ToolFinderPage() {
                     <Link
                       key={tool.id}
                       to={`/tool/${tool.slug}`}
-                      className="group rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
+                      className="group rounded-2xl card-surface p-5 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:bg-white/[0.04]"
                     >
                       <div className="mb-4 flex items-center gap-3">
                         <div
@@ -889,10 +899,10 @@ export default function ToolFinderPage() {
             )}
 
             {/* Newsletter */}
-            <section className="mb-12 overflow-hidden rounded-3xl border border-brand-500/20 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_35%),rgba(99,102,241,0.06)] p-6 sm:p-8">
+            <section className="card-surface mb-12 overflow-hidden rounded-3xl p-6 sm:p-8">
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-center">
                 <div>
-                  <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand-500/20 bg-brand-500/10 text-brand-400">
+                  <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand-500/25 bg-brand-500/10 text-brand-300">
                     <SparkleIcon size={20} />
                   </div>
 
@@ -936,7 +946,7 @@ export default function ToolFinderPage() {
             </section>
 
             {/* CTA */}
-            <section className="rounded-3xl border border-white/[0.08] bg-surface-2/40 p-6 text-center sm:p-8">
+            <section className="rounded-3xl card-surface p-6 text-center sm:p-8">
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-500/10 text-brand-400">
                 <StarIcon size={20} />
               </div>

@@ -126,7 +126,7 @@ export default function PromptDetailPage() {
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center gap-3 mb-3">
-                <span className="px-3 py-1 text-[11px] font-semibold uppercase tracking-wide rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                <span className="rounded-full bg-brand-500/10 px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-brand-300 border border-brand-500/20">
                   {prompt.tool}
                 </span>
 
@@ -139,7 +139,7 @@ export default function PromptDetailPage() {
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-3">
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-[-0.03em] text-white mb-3">
                 {prompt.title}
               </h1>
 
@@ -208,7 +208,7 @@ export default function PromptDetailPage() {
                   value={customPrompt}
                   onChange={(event) => setCustomPrompt(event.target.value)}
                   rows={14}
-                  className="w-full bg-dark-900/50 border border-white/[0.06] rounded-xl px-4 py-3 text-[13px] text-dark-100 font-mono leading-relaxed focus:outline-none focus:border-brand-500/40 resize-y min-h-[320px]"
+                  className="field w-full rounded-xl px-4 py-3.5 font-mono text-[13px] leading-relaxed text-dark-100 resize-y min-h-[320px]"
                 />
 
                 <p className="mt-3 text-[12px] text-dark-400">

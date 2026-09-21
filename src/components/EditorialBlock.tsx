@@ -25,7 +25,7 @@ const points = [
 
 export default function EditorialBlock({ className = '' }: { className?: string }) {
   return (
-    <div className={`rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 sm:p-6 ${className}`}>
+    <div className={`card-surface rounded-2xl p-5 sm:p-6 ${className}`}>
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-400">
           Editorial Note
@@ -35,7 +35,7 @@ export default function EditorialBlock({ className = '' }: { className?: string 
         {points.map((point) => {
           const Icon = point.icon;
           return (
-            <div key={point.title} className="rounded-xl border border-white/[0.05] bg-dark-900/40 p-4">
+            <div key={point.title} className="rounded-xl border border-white/[0.05] bg-dark-900/50 p-4">
               <div className="flex items-center gap-2 mb-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500/10 text-brand-400">
                   <Icon size={16} />

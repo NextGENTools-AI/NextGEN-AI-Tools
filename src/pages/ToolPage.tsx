@@ -7,8 +7,9 @@ import { ToolLogo } from '../components/ToolLogos';
 import {
   StarIcon, ExternalLinkIcon, CheckIcon,
   GlobeIcon, LayersIcon, TargetIcon, LightbulbIcon,
-  ArrowRightIcon
+  ArrowRightIcon, ChevronRightIcon, SearchIcon,
 } from '../components/Icons';
+import { Badge, pricingTone } from '../components/ui';
 import LastUpdated from '../components/LastUpdated';
 import EditorialBlock from '../components/EditorialBlock';
 import ScreenshotGallery from '../components/ScreenshotGallery';
@@ -21,7 +22,7 @@ export default function ToolPage() {
 
   if (!tool) {
     return (
-      <div className="min-h-screen pt-24 pb-20 flex items-center justify-center">
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Tool Not Found</h1>
           <Link to="/categories" className="text-brand-400 hover:text-brand-300">
@@ -79,7 +80,7 @@ export default function ToolPage() {
           '@graph': [breadcrumbSchema, softwareSchema],
         }}
       />
-      <div className="min-h-screen pt-24 pb-20">
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Breadcrumb */}
@@ -87,67 +88,84 @@ export default function ToolPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="mb-8 flex items-center flex-wrap gap-2 text-[13px]"
+            className="mb-8 flex flex-wrap items-center gap-1.5 text-[13px]"
             aria-label="Breadcrumb"
           >
-            <Link to="/categories" className="text-dark-300 hover:text-white transition-colors">Categories</Link>
-            <span className="text-dark-500">/</span>
-            <Link to={`/category/${tool.categorySlug}`} className="text-dark-300 hover:text-white transition-colors">{tool.category}</Link>
-            <span className="text-dark-500">/</span>
-            <span className="text-dark-400">{tool.name}</span>
+            <Link to="/categories" className="rounded text-dark-300 transition-colors hover:text-white">Categories</Link>
+            <ChevronRightIcon size={13} className="text-dark-500" />
+            <Link to={`/category/${tool.categorySlug}`} className="rounded text-dark-300 transition-colors hover:text-white">{tool.category}</Link>
+            <ChevronRightIcon size={13} className="text-dark-500" />
+            <span className="text-dark-400" aria-current="page">{tool.name}</span>
           </motion.nav>
 
           {/* ── Hero ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-14"
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="card-surface relative mb-14 overflow-hidden rounded-3xl p-6 sm:p-9"
           >
-            <div className="flex flex-col sm:flex-row sm:items-start gap-5 mb-6">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-dark-800 border border-white/[0.08] flex items-center justify-center shrink-0 overflow-hidden shadow-xl">
-                <ToolLogo toolId={tool.id} size={48} fallbackLetter={tool.logo} fallbackGradient={tool.gradient} />
-              </div>
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-3 mb-2">
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">{tool.name}</h1>
-                  <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-md uppercase tracking-wide ${
-                    tool.pricing === 'Freemium' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                    : tool.pricing === 'Free'    ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20'
-                    : tool.pricing === 'Paid'    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                    :                              'bg-purple-500/10 text-purple-400 border border-purple-500/20'
-                  }`}>{tool.pricing}</span>
-                </div>
-                <p className="text-lg sm:text-xl text-brand-400 font-medium mb-5 leading-relaxed max-w-3xl">{tool.tagline}</p>
-                <div className="flex flex-wrap items-center gap-4">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[13px] text-dark-300 shadow-md">
-                    <StarIcon size={13} className="text-amber-400" />
-                    {tool.rating}/5 rated by {tool.reviews} reviewers
-                  </span>
-                  <Link
-                    to={`/category/${tool.categorySlug}`}
-                    className="text-[13px] font-medium text-dark-300 hover:text-brand-400 transition-colors"
-                  >
-                    {tool.category}
-                  </Link>
-                </div>
-                <div className="mt-4">
-                  <LastUpdated date={new Date().toISOString()} className="text-[13px]" />
-                </div>
-              </div>
+            <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+              <div className="bg-grid-faint absolute inset-0 opacity-50" />
+              <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-brand-500/[0.1] blur-3xl" />
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-4">
-              <a
-                href={tool.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary group flex items-center gap-2.5 px-6 py-3 rounded-xl text-[14px] font-semibold text-white shadow-lg hover:shadow-brand-500/20 transition-all duration-300 hover:-translate-y-1"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <GlobeIcon size={18} />Visit Official Website<ExternalLinkIcon size={14} />
-                </span>
-              </a>
+            <div className="relative">
+              <div className="mb-6 flex flex-col gap-5 sm:flex-row sm:items-start">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/[0.08] bg-dark-800 shadow-xl sm:h-24 sm:w-24 sm:rounded-3xl">
+                  <ToolLogo toolId={tool.id} size={48} fallbackLetter={tool.logo} fallbackGradient={tool.gradient} />
+                </div>
+                <div className="flex-1">
+                  <div className="mb-2.5 flex flex-wrap items-center gap-3">
+                    <h1 className="text-3xl font-extrabold leading-tight tracking-[-0.03em] text-white sm:text-4xl md:text-[44px]">
+                      {tool.name}
+                    </h1>
+                    <Badge tone={pricingTone(tool.pricing)}>{tool.pricing}</Badge>
+                  </div>
+                  <p className="mb-5 max-w-3xl text-lg font-medium leading-relaxed text-brand-300 sm:text-xl">
+                    {tool.tagline}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] text-dark-200">
+                      <StarIcon size={13} className="text-amber-400" />
+                      {tool.rating}/5 rated by {tool.reviews} reviewers
+                    </span>
+                    <Link
+                      to={`/category/${tool.categorySlug}`}
+                      className="rounded font-mono text-[11.5px] uppercase tracking-[0.16em] text-dark-300 transition-colors hover:text-brand-300"
+                    >
+                      {tool.category}
+                    </Link>
+                  </div>
+                  <div className="mt-4">
+                    <LastUpdated date={new Date().toISOString()} className="text-[13px]" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3.5">
+                <a
+                  href={tool.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary group rounded-xl px-6 py-3 text-[14px] font-semibold text-white"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <GlobeIcon size={17} />
+                    Visit Official Website
+                    <ExternalLinkIcon size={14} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </a>
+                <Link
+                  to="/search"
+                  className="btn-secondary rounded-xl px-6 py-3 text-[14px] font-semibold text-dark-100 hover:text-white"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <SearchIcon size={16} />
+                    Compare alternatives
+                  </span>
+                </Link>
+              </div>
             </div>
           </motion.div>
 
@@ -191,7 +209,7 @@ export default function ToolPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
-                className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
+                className="rounded-2xl card-surface p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
               >
                 <p className="mb-4 text-[13px] text-dark-300">
                   We base listings on publicly available information and encourage readers to verify pricing, limits, and availability on the official website before subscribing.
@@ -204,7 +222,7 @@ export default function ToolPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
-                className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
+                className="rounded-2xl card-surface p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
               >
                 <h2 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
                   <LayersIcon size={22} className="text-brand-400" />Overview
@@ -217,7 +235,7 @@ export default function ToolPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
+                className="rounded-2xl card-surface p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
               >
                 <h2 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
                   <SparklesIcon size={22} className="text-brand-400" />Key Features
@@ -239,7 +257,7 @@ export default function ToolPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.25 }}
-                className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
+                className="rounded-2xl card-surface p-6 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
               >
                 <h2 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
                   <TargetIcon size={22} className="text-brand-400" />Use Cases
@@ -275,7 +293,7 @@ export default function ToolPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
-                className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 hover:border-white/10 transition-all duration-300"
+                className="rounded-2xl card-surface p-5 hover:border-white/10 transition-all duration-300"
               >
                 <h3 className="mb-4 text-sm font-semibold text-white">Quick Info</h3>
                 <div className="space-y-4">
@@ -317,7 +335,7 @@ export default function ToolPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
+                  className="rounded-2xl card-surface p-5 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
                 >
                   <h3 className="text-base font-bold text-white mb-4">Alternatives</h3>
                   <ul className="space-y-3">
@@ -353,7 +371,7 @@ export default function ToolPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.25 }}
-                  className="rounded-2xl border border-white/[0.06] bg-surface-2/40 p-5 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
+                  className="rounded-2xl card-surface p-5 shadow-lg hover:shadow-xl hover:border-white/10 transition-all duration-300"
                 >
                   <h3 className="text-sm font-semibold text-white mb-4">More in {tool.category}</h3>
                   <ul className="space-y-3">

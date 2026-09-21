@@ -2,25 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEO, { generateBreadcrumbSchema, generateToolListSchema } from '../components/SEO';
 import { getCategoryBySlug, getToolsByCategory } from '../data/tools';
-import { ToolLogo } from '../components/ToolLogos';
-import {
-  PenIcon, BotIcon, CodeIcon, ImageIcon, VideoIcon,
-  ChartIcon, ZapIcon, BrainIcon, BriefcaseIcon, SearchIcon,
-  ChevronLeftIcon, ExternalLinkIcon, ArrowRightIcon
-} from '../components/Icons';
-
-const iconMap: Record<string, React.FC<{ size?: number; className?: string }>> = {
-  pen: PenIcon,
-  bot: BotIcon,
-  code: CodeIcon,
-  image: ImageIcon,
-  video: VideoIcon,
-  chart: ChartIcon,
-  zap: ZapIcon,
-  brain: BrainIcon,
-  briefcase: BriefcaseIcon,
-  search: SearchIcon,
-};
+import CategoryIcon from '../components/CategoryIcon';
+import ToolCard from '../components/ToolCard';
+import { ChevronLeftIcon, ArrowRightIcon } from '../components/Icons';
 
 const containerVariants = {
   hidden: {},
@@ -34,7 +18,7 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4 },
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
@@ -45,18 +29,16 @@ export default function CategoryPage() {
 
   if (!category) {
     return (
-      <div className="min-h-screen pt-24 pb-20 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center pt-24 pb-20">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Category Not Found</h1>
-          <Link to="/categories" className="text-brand-400 hover:text-brand-300">
+          <h1 className="mb-4 text-2xl font-bold text-white">Category Not Found</h1>
+          <Link to="/categories" className="text-brand-300 transition-colors hover:text-brand-200">
             Back to Categories
           </Link>
         </div>
       </div>
     );
   }
-
-  const Icon = iconMap[category.icon] || BrainIcon;
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
@@ -85,152 +67,112 @@ export default function CategoryPage() {
           '@graph': [breadcrumbSchema, toolListSchema],
         }}
       />
-      <div className="min-h-screen pt-24 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="mb-8"
-        >
-          <Link
-            to="/categories"
-            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-dark-300 hover:text-white transition-colors"
+      <div className="relative min-h-screen pb-24 pt-28 sm:pt-32">
+        {/* Ambient page light */}
+        <div
+          className="aurora left-1/2 top-[-260px] h-[360px] w-[680px] -translate-x-1/2 opacity-[0.07]"
+          style={{ background: 'radial-gradient(closest-side, #2e86ff 0%, transparent 100%)' }}
+          aria-hidden="true"
+        />
+
+        <main id="main-content" className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mb-10"
           >
-            <ChevronLeftIcon size={16} />
-            All Categories
-          </Link>
-        </motion.div>
+            <Link
+              to="/categories"
+              className="inline-flex items-center gap-1.5 rounded text-[13px] font-medium text-dark-300 transition-colors hover:text-white"
+            >
+              <ChevronLeftIcon size={15} />
+              All Categories
+            </Link>
+          </motion.div>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-16"
-        >
-          <div className="flex items-start gap-5 mb-4">
-            <div className={`w-14 h-14 rounded-xl ${category.bgColor} border ${category.borderColor} flex items-center justify-center shrink-0`}>
-              <Icon size={28} className={category.color} />
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
-                {category.name}
-              </h1>
-              <p className="mt-2 text-[15px] text-dark-200 max-w-2xl">
-                {category.description}
-              </p>
-            </div>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <div className="px-4 py-2 rounded-xl border border-white/[0.06] bg-surface-2/40">
-              <span className="text-white font-semibold">{tools.length}</span>
-              <span className="text-dark-300 text-sm ml-2">Tools</span>
-            </div>
-
-           <div className="px-4 py-2 rounded-xl border border-white/[0.06] bg-surface-2/40">
-             <span className="text-white font-semibold">Updated</span>
-             <span className="text-dark-300 text-sm ml-2">2026</span>
-           </div>
-
-           <div className="px-4 py-2 rounded-xl border border-white/[0.06] bg-surface-2/40">
-             <span className="text-white font-semibold">Curated</span>
-             <span className="text-dark-300 text-sm ml-2">Selection</span>
-          </div>
-      
-            <span className="text-[13px] font-medium text-dark-300">
-              {tools.length} tools available
-            </span>
-          </div>
-        </motion.div>
-<div className="mb-8">
-  <h2 className="text-2xl font-bold text-white">
-    Top {category.name} Tools
-  </h2>
-
-  <p className="mt-2 text-dark-300">
-    Compare features, pricing, strengths and weaknesses.
-  </p>
-</div>
-        {/* Tools Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {tools.map((tool) => (
-            <motion.div key={tool.id} variants={cardVariants}>
-              <Link
-                to={`/tool/${tool.slug}`}
-                className="group card-hover block h-full rounded-2xl border border-white/[0.06] bg-surface-2/40 p-6"
+          {/* Header */}
+          <motion.header
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-14"
+          >
+            <div className="mb-5 flex items-start gap-5">
+              <div
+                className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border ${category.bgColor} ${category.borderColor}`}
               >
-                {/* Header */}
-                <div className="flex items-start gap-3.5 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-dark-800 flex items-center justify-center shrink-0 border border-white/[0.06] overflow-hidden">
-                    <ToolLogo toolId={tool.id} size={30} fallbackLetter={tool.logo} fallbackGradient={tool.gradient} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-[16px] font-semibold text-white truncate group-hover:text-brand-400 transition-colors">
-                        {tool.name}
-                      </h3>
-                      <ExternalLinkIcon size={13} className="text-dark-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-                    </div>
-                    <span className="text-[12px] font-medium text-dark-400">{tool.tagline}</span>
-                  </div>
-                </div>
-
-                {/* Description */}
-                <p className="text-[13px] text-dark-200 leading-relaxed mb-4 line-clamp-2">
-                  {tool.description}
+                <CategoryIcon icon={category.icon} size={27} className={category.color} />
+              </div>
+              <div>
+                <p className="eyebrow mb-2">Category</p>
+                <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-white sm:text-4xl">
+                  {category.name}
+                </h1>
+                <p className="mt-2.5 max-w-2xl text-[15px] leading-relaxed text-dark-300">
+                  {category.description}
                 </p>
+              </div>
+            </div>
 
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-3 border-t border-white/[0.04]">
-                  <span className="text-[12px] text-dark-400">See details</span>
-                  <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-md uppercase tracking-wide ${
-                    tool.pricing === 'Freemium'
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : tool.pricing === 'Free'
-                      ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20'
-                      : tool.pricing === 'Paid'
-                      ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                      : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
-                  }`}>
-                    {tool.pricing}
-                  </span>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+            <div className="mt-7 flex flex-wrap gap-2.5">
+              <div className="card-surface flex items-center gap-2.5 rounded-xl px-4 py-2.5">
+                <span className="text-[15px] font-bold text-white">{tools.length}</span>
+                <span className="text-[12.5px] text-dark-300">tools</span>
+              </div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16 text-center"
-        >
-          <h3 className="text-xl font-semibold text-white mb-3">
-            Need More AI Tools?
-         </h3>
+              <div className="card-surface flex items-center gap-2.5 rounded-xl px-4 py-2.5">
+                <span className="text-[15px] font-bold text-white">Curated</span>
+                <span className="text-[12.5px] text-dark-300">selection</span>
+              </div>
 
-           <p className="text-dark-300 mb-6">
-            Explore every category in our directory.
-          </p>
-          <Link
-            to="/categories"
-            className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[14px] font-semibold text-white"
+              <div className="card-surface flex items-center gap-2.5 rounded-xl px-4 py-2.5">
+                <span className="text-[15px] font-bold text-white">Pricing</span>
+                <span className="text-[12.5px] text-dark-300">clearly listed</span>
+              </div>
+            </div>
+          </motion.header>
+
+          {/* Tools Grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
           >
-            Browse all categories
-            <ArrowRightIcon size={16} />
-          </Link>
-        </motion.div>
+            {tools.map((tool) => (
+              <motion.div key={tool.id} variants={cardVariants}>
+                <ToolCard tool={tool} />
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-16 text-center"
+          >
+            <h2 className="mb-3 text-xl font-semibold tracking-tight text-white">
+              Exploring something else?
+            </h2>
+            <p className="mb-6 text-[14.5px] text-dark-300">
+              Every category in the directory is one click away.
+            </p>
+            <Link
+              to="/categories"
+              className="btn-primary group rounded-xl px-6 py-3 text-[14px] font-semibold text-white"
+            >
+              <span className="flex items-center gap-2">
+                Browse all categories
+                <ArrowRightIcon size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          </motion.div>
+        </main>
       </div>
-    </div>
     </>
   );
 }

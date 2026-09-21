@@ -29,7 +29,15 @@ const TOC_ITEMS: TocItem[] = [
 ];
 
 // ─── Small helpers ────────────────────────────────────────────────────────────
+/**
+ * Local ad placeholder. Follows the shared AdSlot convention:
+ * renders nothing until ads are enabled, so no layout shift and no
+ * placeholder chrome in production.
+ */
+const ADS_ENABLED = false;
+
 function AdSensePlaceholder({ label = 'Advertisement' }: { label?: string }) {
+  if (!ADS_ENABLED) return null;
   return (
     <div className="w-full flex items-center justify-center rounded-xl border border-dashed border-white/[0.08] bg-white/[0.02] py-6 text-[11px] font-medium uppercase tracking-widest text-dark-500">
       {label}
@@ -663,7 +671,7 @@ export default function ComparisonPage() {
                   return (
                     <div
                       key={index}
-                      className="flex items-start gap-3 rounded-xl border border-white/[0.06] bg-surface-2/40 p-4"
+                      className="flex items-start gap-3 rounded-xl card-surface p-4"
                     >
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border ${colorMap[color]}`}>
                         {isTie ? (
@@ -825,7 +833,7 @@ export default function ComparisonPage() {
                     <Link
                       key={comp.id}
                       to={`/compare/${comp.slug}`}
-                      className="group relative flex flex-col gap-3 rounded-xl border border-white/[0.06] bg-surface-2/40 p-4 hover:border-brand-500/30 hover:bg-surface-2/60 transition-all"
+                      className="group relative flex flex-col gap-3 rounded-xl card-surface p-4 hover:border-brand-500/30 hover:bg-surface-2/60 transition-all"
                     >
                       <div className="flex items-center gap-2">
                         <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${comp.toolA.gradient} flex items-center justify-center text-[11px] font-bold text-white shrink-0`}>
@@ -850,7 +858,7 @@ export default function ComparisonPage() {
                 </div>
 
                 {/* Also see tool pages */}
-                <div className="rounded-xl border border-white/[0.06] bg-surface-2/30 p-5">
+                <div className="rounded-xl card-surface p-5">
                   <p className="text-[13px] font-semibold text-white mb-3">
                     Also see individual tool reviews:
                   </p>
@@ -911,7 +919,7 @@ function FaqItem({
   const [open, setOpen] = useState(index === 0);
 
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-surface-2/40 overflow-hidden">
+    <div className="rounded-xl card-surface overflow-hidden">
       <button
         className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
         onClick={() => setOpen(!open)}
